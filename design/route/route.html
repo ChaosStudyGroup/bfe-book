@@ -1,0 +1,513 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第八章 BFE的路由转发机制 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html" class="active"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#bfe的路由转发机制" id="bfe的路由转发机制">BFE的路由转发机制</a></h1>
+<h2><a class="header" href="#概述" id="概述">概述</a></h2>
+<p>在BFE的转发过程中，在确定请求所属的租户后，要根据HTTP报头的内容，进一步确定处理该请求的目标集群。在BFE内对每个租户维护一张独立的“转发表”。对于每个属于该租户的请求，通过查询转发表，获得目标集群。</p>
+<h2><a class="header" href="#转发表" id="转发表">转发表</a></h2>
+<p>转发表由多条“转发规则”组成。在查询时，对多条转发规则顺序查找；只要命中任何一条转发规则，就会结束退出。其中最后一条规则为“默认规则（Default）”。在所有转发规则都没有命中的时候，执行默认规则。</p>
+<p>每条转发规则包括两部分：匹配条件，目标集群。其中匹配条件使用BFE自研的“条件表达式“（Condition Expression）来表述。</p>
+<p>下图展示了一个转发表的例子。</p>
+<p>在这个例子中，包含以下3种服务集群：</p>
+<ul>
+<li>静态集群(demo-static)：服务静态流量</li>
+<li>post集群(demo-post)：服务post流量</li>
+<li>main集群(demo-main)：服务其他流量</li>
+</ul>
+<p>期望的转发逻辑如下：</p>
+<ul>
+<li>对于path以&quot;/static&quot;为前缀的，都发往demo-static集群</li>
+<li>请求方法为&quot;POST&quot;、且path以&quot;/setting&quot;为前缀的，都发往demo-post</li>
+<li>其它请求，都发往demo-main</li>
+</ul>
+<p>在转发表中，使用条件表达式来描述以上转发条件。</p>
+<p><img src="./bfe-forwarding-table.png" alt="forwarding table" /></p>
+<h2><a class="header" href="#条件表达式" id="条件表达式">条件表达式</a></h2>
+<p>条件表达式是BFE路由转发的核心机制，下面对条件表达式的设计思想和机制进行介绍。</p>
+<p>更多关于条件表达式的细节，可以查看BFE开源官网中<a href="https://github.com/bfenetworks/bfe/tree/develop/docs/zh_cn/condition">关于条件表达式的说明</a></p>
+<h3><a class="header" href="#设计思想" id="设计思想">设计思想</a></h3>
+<p>在使用Go语言重构BFE转发引擎之前，BFE使用正则表达式来描述转发的条件。在实践中，发现正则表达式存在以下2个严重问题：</p>
+<ul>
+<li>
+<p>配置难以维护</p>
+<p>正则表达式存在严重的可读性问题。用正则表达式编写的转发条件很难看懂，且易存在二义性。也经常会发现一个人编写的分流条件，其他人很难接手继续维护。</p>
+</li>
+<li>
+<p>性能存在隐患</p>
+<p>对于编写不当的正则表达式，可能在特定的流量特征下出现严重的性能退化。在线上曾经发生过这样的情况：原本每秒可以处理几千请求的服务，由于增加了一个正则表达式描述，性能下降到每秒只能处理几十个请求。</p>
+</li>
+</ul>
+<p>针对正则表达式存在的问题，在重构BFE转发引擎时设计了条件表达式。条件表达式的设计中有以下思想：</p>
+<ul>
+<li>
+<p>在表述中明确指定所使用的HTTP请求字段，提升可读性</p>
+<p>例如，从req_path_prefix_in()这样的名字，可以立刻看出是针对请求中的path部分进行前缀匹配；从req_method_in()可以看出是针对请求的method字段进行匹配。</p>
+</li>
+<li>
+<p>控制计算的复杂度，降低性能退化的风险</p>
+<p>条件表达式主要使用精确匹配、前缀匹配、后缀匹配等计算方式。这些计算方式的计算复杂度都较低。</p>
+</li>
+</ul>
+<h3><a class="header" href="#基本概念" id="基本概念">基本概念</a></h3>
+<h4><a class="header" href="#条件原语condition-primitive" id="条件原语condition-primitive">条件原语（Condition Primitive）</a></h4>
+<ul>
+<li>条件原语是基本的内置条件判断单元，执行某种比较来判断是否满足条件</li>
+</ul>
+<pre><code class="language-go">// 如果请求host是&quot;bfe-networks.com&quot;或&quot;bfe-networks.org&quot;, 返回true
+req_host_in(&quot;bfe-networks.com|bfe-networks.org&quot;) 
+</code></pre>
+<ul>
+<li>条件原语是判断的最小单元。按照请求、响应、会话、系统等几个分类，建立了几十个条件原语。也可以根据需求，增加新的条件原语。</li>
+</ul>
+<h4><a class="header" href="#条件表达式condition-expression" id="条件表达式condition-expression">条件表达式（Condition Expression）</a></h4>
+<ul>
+<li>条件表达式是多个条件原语与操作符(例如与、或、非)的组合</li>
+</ul>
+<pre><code class="language-go">// 如果请求域名是&quot;bfe-networks.com&quot;且请求方法是&quot;GET&quot;, 返回true
+req_host_in(&quot;bfe-networks.com&quot;) &amp;&amp; req_method_in(&quot;GET&quot;) 
+</code></pre>
+<h4><a class="header" href="#条件变量condition-variable" id="条件变量condition-variable">条件变量（Condition Variable）</a></h4>
+<ul>
+<li>可以将条件表达式赋值给一个变量，这个变量被定义为条件变量</li>
+</ul>
+<pre><code class="language-go">// 将条件表达式赋值给变量bfe_host
+bfe_host = req_host_in(&quot;bfe-networks.com&quot;) 
+</code></pre>
+<h4><a class="header" href="#高级条件表达式advanced-condition-expression" id="高级条件表达式advanced-condition-expression">高级条件表达式（Advanced Condition Expression）</a></h4>
+<ul>
+<li>
+<p>高级条件表达式是多个条件原语和条件变量与操作符(例如与、或、非)的组合</p>
+</li>
+<li>
+<p>在高级条件表达式中，条件变量以$前缀作为标示</p>
+</li>
+</ul>
+<pre><code class="language-go">// 如果变量bfe_host为true且请求方法是&quot;GET&quot;，返回true
+$bfe_host &amp;&amp; req_method_in(&quot;GET&quot;) 
+</code></pre>
+<ul>
+<li>条件变量和高级条件表达式的引入，是为了便于条件表达式逻辑的复用。</li>
+</ul>
+<h3><a class="header" href="#语法" id="语法">语法</a></h3>
+<h4><a class="header" href="#条件原语的语法" id="条件原语的语法">条件原语的语法</a></h4>
+<p>条件原语的形式如下：</p>
+<pre><code class="language-go">func_name(params)
+</code></pre>
+<ul>
+<li><strong>func_name</strong>是条件原语名称</li>
+<li><strong>params</strong>是条件原语的参数，可能是0个或多个</li>
+<li>返回值类型是<strong>bool</strong></li>
+</ul>
+<h4><a class="header" href="#条件表达式的语法" id="条件表达式的语法">条件表达式的语法</a></h4>
+<p>条件表达式(CE: Condition Expression)的语法定义如下：</p>
+<pre><code>CE = CE &amp;&amp; CE
+   | CE || CE
+   | ( CE )
+   | ! CE
+   | ConditionPrimitive
+</code></pre>
+<h4><a class="header" href="#高级条件表达式的语法" id="高级条件表达式的语法">高级条件表达式的语法</a></h4>
+<p>高级条件表达式(ACE: Advanced Condition Expression)的语法定义如下：</p>
+<pre><code>ACE = ACE &amp;&amp; ACE
+    | ACE || ACE
+    | ( ACE )
+    | ! ACE
+    | ConditionPrimitive
+    | ConditionVariable
+</code></pre>
+<h4><a class="header" href="#操作符优先级" id="操作符优先级">操作符优先级</a></h4>
+<p>操作符的优先级和结合律与C语言中类似。下表列出了所有操作符的优先级及结合律。操作符从上至下按操作符优先级降序排列。</p>
+<table><thead><tr><th>优先级</th><th>操作符</th><th>含义</th><th>结合律</th></tr></thead><tbody>
+<tr><td>1</td><td>()</td><td>括号</td><td>从左至右</td></tr>
+<tr><td>2</td><td>!</td><td>逻辑非</td><td>从右至左</td></tr>
+<tr><td>3</td><td>&amp;&amp;</td><td>逻辑与</td><td>从左至右</td></tr>
+<tr><td>4</td><td>||</td><td>逻辑或</td><td>从左至右</td></tr>
+</tbody></table>
+<h3><a class="header" href="#条件原语所匹配的内容" id="条件原语所匹配的内容">条件原语所匹配的内容</a></h3>
+<p>条件原语可以对请求、响应、会话及请求上下文中的内容进行匹配。每个条件原语都会对某种内容进行有针对性的精确匹配。这样的方式提升了转发配置的描述准确性，也提升了可读性和可维护性。</p>
+<p>条件原语匹配的内容包括：</p>
+<ul>
+<li><strong>cip</strong>：Client IP，客户端地址
+<ul>
+<li>如：req_cip_range(start_ip, end_ip)</li>
+</ul>
+</li>
+<li><strong>vip</strong>：Virtual IP，服务端虚拟IP地址
+<ul>
+<li>如：req_vip_in(vip_list)</li>
+</ul>
+</li>
+<li><strong>cookie</strong>：HTTP头部所携带的cookie
+<ul>
+<li>对一个cookie，包含key和value两部分</li>
+<li>如：req_cookie_key_in(key_list)，req_cookie_value_in(key, value_list, case_insensitive)</li>
+</ul>
+</li>
+<li><strong>header</strong>：准确的说，应该是HTTP头部字段（HTTP header field）
+<ul>
+<li>对一个HTTP头部字段，包含key和value两部分</li>
+<li>如：req_header_key_in(key_list)，req_header_value_in(header_name, value_list, case_insensitive)</li>
+</ul>
+</li>
+<li><strong>method</strong>：HTTP方法
+<ul>
+<li>HTTP方法包括GET、POST、PUT、DELETE等</li>
+<li>如：req_method_in(method_list)</li>
+</ul>
+</li>
+<li><strong>URL</strong>：统一资源定位符
+<ul>
+<li>如：req_url_regmatch(reg_exp)</li>
+</ul>
+</li>
+</ul>
+<p>对于URL，其详细格式为：</p>
+<pre><code>scheme:[//authority]path[?query][#fragment]
+</code></pre>
+<p>其中，authority的格式为：</p>
+<pre><code>[userinfo@]host[:port]
+</code></pre>
+<p>针对URL，可以进一步匹配其中的内容：</p>
+<ul>
+<li><strong>host</strong>：主机名
+<ul>
+<li>如：req_host_in(host_list)</li>
+</ul>
+</li>
+<li><strong>port</strong>：端口
+<ul>
+<li>如：req_port_in(port_list)</li>
+</ul>
+</li>
+<li><strong>path</strong>：路径
+<ul>
+<li>如：req_path_in(path_list, case_insensitive)</li>
+</ul>
+</li>
+<li><strong>query</strong>：查询字符串
+<ul>
+<li>对一个查询字符串，包含key和value两部分</li>
+<li>如：req_query_key_in(key_list)，req_query_value_in(key, value_list, case_insensitive)</li>
+</ul>
+</li>
+</ul>
+<h3><a class="header" href="#条件原语名称的规范" id="条件原语名称的规范">条件原语名称的规范</a></h3>
+<p>目前在BFE开源项目中，已经包括40多种条件原语。条件原语的名称会遵循一定的规范，以便于分类和阅读。</p>
+<p>BFE开源项目所支持条件原语的列表，可以查看<a href="https://github.com/bfenetworks/bfe/blob/develop/docs/zh_cn/condition/condition_primitive_index.md">BFE开源官网</a></p>
+<h4><a class="header" href="#条件原语名称前缀" id="条件原语名称前缀">条件原语名称前缀</a></h4>
+<ul>
+<li>
+<p>针对Request的原语，会以&quot;<strong>req_</strong>&quot;开头</p>
+<ul>
+<li>如：req_host_in()</li>
+</ul>
+</li>
+<li>
+<p>针对Response的原语，会以&quot;<strong>res_</strong>&quot;开头</p>
+<ul>
+<li>如：res_code_in()</li>
+</ul>
+</li>
+<li>
+<p>针对Session的原语，会以&quot;<strong>ses_</strong>&quot;开头</p>
+<ul>
+<li>如：ses_vip_in()</li>
+</ul>
+</li>
+<li>
+<p>针对系统原语，会以&quot;<strong>bfe_</strong>&quot; 开头</p>
+<ul>
+<li>如：bfe_time_range()</li>
+</ul>
+</li>
+</ul>
+<h4><a class="header" href="#条件原语中比较的动作名称" id="条件原语中比较的动作名称">条件原语中比较的动作名称</a></h4>
+<ul>
+<li><strong>match</strong>：精确匹配
+<ul>
+<li>如：req_tag_match()</li>
+</ul>
+</li>
+<li><strong>in</strong>：值是否在某个集合中
+<ul>
+<li>如：req_host_in()</li>
+</ul>
+</li>
+<li><strong>prefix_in</strong>：值的前缀是否在某个集合中
+<ul>
+<li>如：req_path_prefix_in()</li>
+</ul>
+</li>
+<li><strong>suffix_in</strong>：值的后缀是否在某个集合中
+<ul>
+<li>如：req_path_suffix_in()</li>
+</ul>
+</li>
+<li><strong>key_exist</strong>：是否存在指定的key
+<ul>
+<li>如：req_query_key_exist()</li>
+</ul>
+</li>
+<li><strong>value_in</strong>：对给定的key，其value是否落在某个集合中
+<ul>
+<li>如：req_header_value_in()</li>
+</ul>
+</li>
+<li><strong>value_prefix_in</strong>：对给定的key，其value的前缀是否在某个集合中
+<ul>
+<li>如：req_header_value_prefix_in()</li>
+</ul>
+</li>
+<li><strong>value_suffix_in</strong>：对给定的key，其value的后缀是否在某个集合中
+<ul>
+<li>如：req_header_value_suffix_in()</li>
+</ul>
+</li>
+<li><strong>range</strong>：范围匹配
+<ul>
+<li>如：req_cip_range()</li>
+</ul>
+</li>
+<li><strong>regmatch</strong>：正则匹配
+<ul>
+<li>如：req_url_regmatch()</li>
+<li>注：这类条件原语不合理使用将明显影响性能，谨慎使用</li>
+</ul>
+</li>
+<li><strong>contain</strong>: 字符串包含匹配
+<ul>
+<li>如：req_cookie_value_contain()</li>
+</ul>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../design/model/model.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../design/gslb/gslb.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../design/model/model.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../design/gslb/gslb.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

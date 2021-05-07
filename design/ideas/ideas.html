@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第五章 BFE的设计思想 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html" class="active"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#bfe的设计思想" id="bfe的设计思想">BFE的设计思想</a></h1>
+<h2><a class="header" href="#bfe引擎重构的缘起" id="bfe引擎重构的缘起">BFE引擎重构的缘起</a></h2>
+<p>百度的BFE转发平台最早于2012初上线使用。那时所基于的转发引擎是一个名为Transmit的内部系统。Transmit基于C语言实现，是多进程+libevent的模型。</p>
+<p>到2013年底的时候，有了要重构转发引擎的想法。主要的驱动力如下：</p>
+<ul>
+<li>
+<p>平台化的需要</p>
+<p>BFE平台在上线初期，只有十多个业务使用。到2013年底的时候，已经有几十个业务了。原有的系统中，没有多租户机制，不易做多业务的配置管理。另外，配置的格式是非结构化的，不易使用程序来生成和处理；原来的系统在配置热加载方面的机制也比较复杂。</p>
+</li>
+<li>
+<p>网络协议栈的维护成本</p>
+<p>Transmit中的HTTP协议栈是百度自研的，在使用过程中发现了一些协议一致性方面的细节问题，维护成本较高。另外，2013年底，百度已经启动了对于HTTPS的调研，需要在转发引擎上增加对HTTPS的支持。网络协议栈是反向代理系统的重要模块。从长期来看，维护完全自研的网络协议栈成本很高。</p>
+</li>
+<li>
+<p>状态监控能力欠缺</p>
+<p>对于一个工业级水平的转发系统来说，需要有很强的状态监控能力。Transmit原有的监控信息较少，增加新的监控状态也比较困难。</p>
+</li>
+<li>
+<p>转发配置的维护难度较高</p>
+<p>Transmit的转发配置主要使用正则表达式来描述。在实践中，发现正则表达式存在可维护性方面的问题。</p>
+</li>
+</ul>
+<p>2014年初，确定基于Go语言来重构BFE转发引擎。2014年4月份，开始编写代码，2014年底完成开发，2015年初Go版本的转发引擎在百度完成全量上线。</p>
+<h2><a class="header" href="#bfe为什么要基于go语言" id="bfe为什么要基于go语言">BFE为什么要基于Go语言</a></h2>
+<p>在2014年初对BFE重构做技术选型时，曾经考虑过两种技术路线：</p>
+<ul>
+<li>基于Nginx。这是业界普遍使用的方案，绝大多数企业的七层负载均衡是基于Nginx搭建的。</li>
+<li>基于Go语言。</li>
+</ul>
+<p>回到2014年，Go语言在国内的使用案例还比较少。这么多年来，不断的有人在问，你们为什么要选用Go语言。下面是当时的一些考虑：</p>
+<ul>
+<li>
+<p>研发效率</p>
+<p>对C和Python都使用过的人应该有这样的体会，Python的研发效率要远高于C。我们的一个基本判断是，在未来很多年内，七层负载均衡仍然有很多功能需要开发。Go语言的研发效率接近Python，这对于快速交付功能提供了非常大的优势。</p>
+</li>
+<li>
+<p>稳定性</p>
+<p>负载均衡的稳定性要求很高。如果负载均衡转发引擎崩溃了，无论数据中心内其它服务的稳定性由多高，用户根本无法访问服务。对于使用C语言研发的系统来说，内存访问错误占据非常高的比例，部分错误可以直接导致系统的崩溃；而且C语言对于错误缺乏保护机制。而对于Go语言来说，内存的回收是系统负责，无需开发者关心，这大大降低了问题发生的概率；另外，在Go语言中可以使用Recover机制来捕捉可能发现的Panic。</p>
+</li>
+<li>
+<p>安全性</p>
+<p>从理论上讲，C语言编写的程序都具有缓冲区溢出的隐患，而这是很多恶意攻击可以成功的基础。Go的内存管理机制使得缓冲区溢出方面的安全风险大大降低。</p>
+</li>
+<li>
+<p>代码可维护性</p>
+<p>Go语言相对于C语言（及Nginx中常用的Lua语言），代码的可读性和可维护性都更好。另外，在编写高并发程序方面，Go Routine使得可以类似多线程的模型来编写程序，而不需要设计复杂的状态机。这使得编写程序的难度降低。</p>
+</li>
+<li>
+<p>网络协议栈</p>
+<p>对于一个负载均衡软件来说，网络协议栈是重要的考虑因素。BFE利用了Go系统库中成熟稳定的网络协议栈，这来源于谷歌在网络协议栈方面的强大实力。近年来的很多网络协议栈升级都由谷歌发起，如HTTP/2、QUIC。Go系统库中也会很快提供新协议的支持。</p>
+</li>
+</ul>
+<p>从实践来看，2014年所做的选择是非常正确的。基于Go语言重构的BFE引擎及时响应了百度内部业务对七层负载均衡的各种需求，并且长期保持稳定。自2015年初全量上线以来，BFE引擎从来没有在线上环境中发生过crash。</p>
+<p>当然，Go语言也有它的短板。和Nginx相比，基于Go实现的BFE引擎性能要差一些。这种性能方面的差距主要来自于两方面：</p>
+<ul>
+<li>
+<p>BFE没有在内存拷贝方面做极致的优化</p>
+<p>Nginx在内存拷贝方面做了端到端的极致优化，而内存拷贝是性能消耗的主要来源之一。出于对网络协议栈一致性方面的考虑，BFE尽量保持Go系统库网络协议栈实现的原貌，所以在内存拷贝方面多了一些消耗。</p>
+</li>
+<li>
+<p>BFE无法利用CPU Affinity</p>
+<p>Nginx可以通过“绑定CPU”的方式来减少进程切换代理的性能损耗。对于BFE来说，开发者只能控制Go Routine，底层的线程是被系统所控制的，无法利用CPU Affinity来优化性能。</p>
+</li>
+</ul>
+<p>这里还有一点要重点说明的是Go语言的GC（Garbage Collection，垃圾回收）延迟对于BFE研发的影响。在2014年时Go版本为1.3，GC延迟的问题非常严重，BFE的实测效果，GC延迟达到了400ms，完全无法接受。为此，当时在BFE中引入了“多进程轮转”的机制，以降低GC延迟对于转发流量的影响（这个机制的详情见附1）。GC延迟的问题在2017年初发布的Go 1.8中有了较好的解决，大部分的GC延迟都降低在1ms内，可以满足业务的要求，于是在2017年从BFE中去掉了多进程轮转机制。</p>
+<h2><a class="header" href="#bfe引擎的主要设计思想" id="bfe引擎的主要设计思想">BFE引擎的主要设计思想</a></h2>
+<p>基于Go来重写BFE转发引擎，绝对不仅仅是换了一种编程语言。在新版BFE中，有以下设计考虑：</p>
+<ul>
+<li>
+<p>对转发模型做了较大的修改</p>
+<p>在引擎中明确引入了租户概念，可以基于hostname来区分租户（在各功能模块的配置中，也引入了对租户的区分）。另外，基于之前所发现的正则表达式的问题，尽量减少正则表达式的使用，为此设计了“条件表达式”（Condition Expression）机制。</p>
+</li>
+<li>
+<p>降低动态配置加载的难度</p>
+<p>配置的动态加载，这是负载均衡软件的一个重要需求。除了升级可执行程序的场景，软件应可以持续运行，以保证流量转发的持续性。新版的BFE区将配置分为“常规配置”和“动态配置”：常规配置仅在程序启动时生效；动态配置可在程序执行过程中动态加载。动态配置统一使用JSON格式，兼顾了程序读取和人工阅读的需求。另外，系统提供了统一的动态加载机制，在实现新的模块时可以直接使用。</p>
+</li>
+<li>
+<p>增强服务状态监控能力</p>
+<p>在重构BFE时，同时编写了web-monitor框架：每个BFE运行实例可以通过独立的HTTP服务向外展现内部的执行状态；增加新的内部状态非常简单，只需要一行代码。</p>
+</li>
+<li>
+<p>将大存储功能转移到外部</p>
+<p>在原有的实现中，类似“词典查找”这样的功能也包含在BFE内部。这样的模块在启动时，需要使用较长的时间来加载词典数据，不利于BFE程序的快速启动。而BFE程序的快速启动能力，对于系统的稳定性至关重要。在发生故障的时候，一个需要几分钟才能启动的程序，其故障的恢复时间要长的多。为此，在重构BFE时将词典查找功能改写为独立的“词典服务”，由BFE远程调用。这保证了BFE可以在数秒内完成重启。</p>
+</li>
+</ul>
+<p>以上这些内容将在后续中的章节中给出详细的说明。</p>
+<p><img src="./dict_service.png" alt="dict service refactor" /></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../frontend_principle/load_balance/load_balance.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../design/comparison/comparison.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../frontend_principle/load_balance/load_balance.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../design/comparison/comparison.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

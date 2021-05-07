@@ -1,0 +1,389 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第二十一章 配置负载均衡算法及会话保持 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html" class="active"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#配置负载均衡算法及会话保持" id="配置负载均衡算法及会话保持">配置负载均衡算法及会话保持</a></h1>
+<p>配置负载均衡系统时，其中重要的参数就是如何设置负载均衡的算法。这决定了负载均衡系统如何将消息转发到后端的实例。</p>
+<p>对BFE来说，一个后端集群可能包含多个子集群，子集群又可能包含多个实例。所以，负载均衡的算法在两层生效：子集群级别和实例级别。</p>
+<h2><a class="header" href="#子集群间的负载均衡" id="子集群间的负载均衡">子集群间的负载均衡</a></h2>
+<p>对于后端服务的一个集群，我们可以设置其所包含的子集群的权重。BFE会按子集群所设置权重，将请求的消息分配到子集群。</p>
+<p>子集群间的负载均衡使用hash算法，再根据子集群的权重进行消息的按比例分配。缺省使用源IP进行hash计算。</p>
+<h3><a class="header" href="#配置示例" id="配置示例">配置示例</a></h3>
+<p>基于前面一章的例子，我们为后端服务的集群A进行扩容，增加一个子集群subCluster2，现在clusterA包含两个子集群subCluster1和subCluster2。由于两个子集群的处理能力不同，分别为其设置不同的流量比例。</p>
+<p><img src="./img/proxy_case_1.png" alt="proxy case 1" /></p>
+<p>子集群的流量比例，可以在conf/cluster_conf/gslb.data中指定。</p>
+<p>下面为该配置文件的内容。我们可以分别为两个子集群指定权重值，以支持上面的流量分配：</p>
+<pre><code class="language-json">{
+    &quot;Clusters&quot;: {
+        &quot;clusterA&quot;: {
+            &quot;GSLB_BLACKHOLE&quot;: 0,
+            &quot;subCluster1&quot;: 60,
+            &quot;subCluster2&quot;: 40,
+        }
+    }
+}
+</code></pre>
+<h2><a class="header" href="#子集群会话保持" id="子集群会话保持">子集群会话保持</a></h2>
+<p>对于子集群间的流量分配，BFE是根据请求消息中的字段（如IP地址、消息头等）进行hash计算，再按照配置的权重选择转发的后端。hash计算能保证携带相同信息的消息能被分配到相同的子集群，也就实现了子集群级别的会话保持。</p>
+<p>当然，由于实现的方式是基于hash计算。所以，当子集群的数量有变化时，会对会话保持会受到一定影响，这个需要注意。</p>
+<p>会话保持可以基于请求的源IP地址，或者请求的header中的特定域。具体使用哪种方式，可以通过配置文件来设置。</p>
+<h3><a class="header" href="#配置示例-1" id="配置示例-1">配置示例</a></h3>
+<p>在<em>conf/server_data_conf/cluster_conf.data</em>˙中，修改配置文件中的&quot;HashConf&quot;字段，设置子集群会话保持的属性。</p>
+<p>如下实例中，BFE将会使用请求中名为UID的cookie进行hash计算。</p>
+<pre><code>Cookie: UID=12345
+</code></pre>
+<pre><code class="language-json">{
+    &quot;config&quot;: {
+        ...
+        &quot;cluster_example&quot;: {
+            ...
+            &quot;GslbBasic&quot;: {
+                ...
+                &quot;HashConf&quot;: {
+                    &quot;HashStrategy&quot;: 0,
+                    &quot;HashHeader&quot;: &quot;Cookie:UID&quot;,
+                    &quot;SessionSticky&quot;:false    
+                }
+            }
+    }
+}
+</code></pre>
+<h3><a class="header" href="#参数具体含义" id="参数具体含义">参数具体含义</a></h3>
+<p>&quot;HashConf&quot;中字段的含义：</p>
+<ul>
+<li>
+<p>HashStrategy： 设置会话保持中使用的策略：</p>
+<ul>
+<li>0：使用请求header中的域做会话保持，域的名字由&quot;HashHeader&quot;指定。</li>
+<li>1: 使用请求的源IP地址做会话保持</li>
+<li>2：优先使用header，如该header不存在，使用源IP。</li>
+</ul>
+</li>
+<li>
+<p>HashHeader: 当使用header中的域进行会话保持时，该参数指定了header中域的名字。 比如在上面示例中，&quot;Cookie:UID&quot;指定使用名为UID的cookie做会话保持。</p>
+</li>
+<li>
+<p>SessionSticky: 是否开启实例级别的会话保持。</p>
+</li>
+</ul>
+<h2><a class="header" href="#实例间的负载均衡" id="实例间的负载均衡">实例间的负载均衡</a></h2>
+<p>一个子集群内部，我们可以定义多个实例。如何将这个子集群上的流量，分配到这些实例当中，这就涉及到实例间的负载均衡问题。</p>
+<p>子集群的实例间的负载均衡算法支持：</p>
+<ul>
+<li>平滑加权轮询</li>
+<li>最少连接数</li>
+</ul>
+<h3><a class="header" href="#加权轮询的配置示例" id="加权轮询的配置示例">加权轮询的配置示例</a></h3>
+<p>加权轮询时是实例间负载均衡的缺省配置。使用这种方式，用户只需要设置实例的权重。
+基于前面的子集群负载均衡的例子，我们为两个子集群中的实例设置不同的权重。支持如下的流量转发：
+<img src="./img/proxy_case_2.png" alt="proxy case 2" /></p>
+<p>如前面所提到，实例的权重配置文件为 <em>conf/cluster_conf/cluster_table.data</em></p>
+<p>上述场景的配置如下：</p>
+<pre><code class="language-json">{
+    &quot;Config&quot;: {
+        &quot;cluster_A&quot;: {
+            &quot;subCluster1&quot;: [
+                {
+                    &quot;Addr&quot;: &quot;192.168.2.1&quot;,
+                    &quot;Name&quot;: &quot;instance-1&quot;,
+                    &quot;Port&quot;: 8080,
+                    &quot;Weight&quot;: 2
+                },
+                {
+                    &quot;Addr&quot;: &quot;192.168.2.2&quot;,
+                    &quot;Name&quot;: &quot;instance-2&quot;,
+                    &quot;Port&quot;: 8080,
+                    &quot;Weight&quot;: 3
+                },
+                {
+                    &quot;Addr&quot;: &quot;192.168.2.3&quot;,
+                    &quot;Name&quot;: &quot;instance-3&quot;,
+                    &quot;Port&quot;: 8080,
+                    &quot;Weight&quot;: 5
+                }
+            ],
+            &quot;subCluster2&quot;: [
+                {
+                    &quot;Addr&quot;: &quot;192.168.3.1&quot;,
+                    &quot;Name&quot;: &quot;instance-4&quot;,
+                    &quot;Port&quot;: 8080,
+                    &quot;Weight&quot;: 3
+                },
+                {
+                    &quot;Addr&quot;: &quot;192.168.3.2&quot;,
+                    &quot;Name&quot;: &quot;instance-5&quot;,
+                    &quot;Port&quot;: 8080,
+                    &quot;Weight&quot;: 3
+                },
+                {
+                    &quot;Addr&quot;: &quot;192.168.3.3&quot;,
+                    &quot;Name&quot;: &quot;instance-5&quot;,
+                    &quot;Port&quot;: 8080,
+                    &quot;Weight&quot;: 4
+                }
+            ]            
+        }
+    }, 
+    &quot;Version&quot;: &quot;1&quot;
+}
+</code></pre>
+<h3><a class="header" href="#最小连接数配置的示例" id="最小连接数配置的示例">最小连接数配置的示例</a></h3>
+<p>如果需要在子集群的实例间使用最小连接数的负载均衡算法，修改<em>conf/server_data_conf/cluster_conf.data</em>中的 &quot;BalanceMode&quot;字段，如下：</p>
+<pre><code class="language-json">{
+    &quot;config&quot;: {
+        ...
+        &quot;cluster_example&quot;: {
+            ...
+            &quot;GslbBasic&quot;: {
+                ...
+                &quot;BalanceMode&quot;: &quot;WLC&quot;,
+                ...
+            }
+    }
+}
+</code></pre>
+<p>修改上述配置项，后端请求会被转发到子集群中连接数最少的实例。</p>
+<h2><a class="header" href="#实例级别的会话保持示例" id="实例级别的会话保持示例">实例级别的会话保持示例</a></h2>
+<p>我们可以设置会话保持到后端实例。
+修改配置，将<em>conf/server_data_conf/cluster_conf.data</em>中的&quot;SessionSticky&quot;变为true：</p>
+<pre><code>            &quot;GslbBasic&quot;: {
+                ...
+                &quot;HashConf&quot;: {
+                    &quot;HashStrategy&quot;: 0,
+                    &quot;HashHeader&quot;: &quot;Cookie:UID&quot;,
+                    &quot;SessionSticky&quot;:true    
+                }
+
+</code></pre>
+<p>当开启该功能，BFE会使用hash方式，计算得到子集群中的后端实例。这样，相同UID的消息，总能hash得到相同的后端，从而实现了会话保持功能。</p>
+<p>这里也会出现同样的问题：如果后端实例列表发生变化，会话会转移到其他实例上。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../operation/configuration/basic.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../operation/configuration/https.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../operation/configuration/basic.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../operation/configuration/https.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

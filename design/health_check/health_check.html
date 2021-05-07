@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第十一章 健康检查机制 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html" class="active"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#健康检查机制" id="健康检查机制">健康检查机制</a></h1>
+<h2><a class="header" href="#健康检查的原理" id="健康检查的原理">健康检查的原理</a></h2>
+<p><img src="./health_status.png" alt="health status" /></p>
+<p>在负载均衡系统内，会维护一个RS的状态表，用于保存每个RS的健康状态。在转发流量时，只会将流量转发给健康状态为“正常”的RS。</p>
+<p>为了获得RS的健康状态，负载均衡系统会定期向RS发送探测请求，并根据收到响应的情况来修改对应RS的健康状态。</p>
+<h2><a class="header" href="#主动健康检查-vs-被动健康检查" id="主动健康检查-vs-被动健康检查">主动健康检查 vs 被动健康检查</a></h2>
+<h3><a class="header" href="#主动健康检查" id="主动健康检查">主动健康检查</a></h3>
+<p>“<strong>主动健康检查</strong>”的机制可以简要描述如下：</p>
+<ul>
+<li>负载均衡系统<strong>持续</strong>向RS发送探测请求</li>
+<li>在RS为“正常”的状态下，如果连续探测失败的次数到达一定的阈值，则改变RS的健康状态为“失败”</li>
+<li>在RS为“失败”的状态下，如果连续探测成功的次数到达一定的阈值，则改变RS的健康状态为“正常”</li>
+</ul>
+<p>主动健康检查中RS的状态变化可以用一个简单的有限状态机来描述。</p>
+<p><img src="./fsm_active_check.png" alt="fsm of active health check" /></p>
+<p>对于健康检查来说，一个重要的指标是“响应时间”，即：当RS的状态发生改变后，经过多长时间负载均衡系统才能感知到变化。如果不能及时感知到RS的失败，可能会导致请求发送到失败的RS节点上，从而导致服务的失败；如果不能及时感知到RS的恢复，可能会使其它正常的RS节点压力过大。</p>
+<p>对于主动健康检查来说，降低响应时间的方法是提高发送探测请求的频率。但这个方案也是有代价的。一方面，它会增大负载均衡系统发送探测请求的压力；另外一方面，也会增大RS的压力。第二个问题在软件负载均衡场景中变得更为突出。</p>
+<h3><a class="header" href="#被动健康检查" id="被动健康检查">被动健康检查</a></h3>
+<p>在前面章节“<a href="../../frontend_principle/trend/trend.html">网络前端技术的发展趋势</a>”中提到，“软件化”是网络前端接入系统的重要趋势。软件负载均衡的一个重要特征是支持负载均衡节点的大规模横向扩展部署。在传统硬件负载均衡场景，最常见是“主+备”的部署模式，RS的上游一般是2个负载均衡节点。而在软件负载均衡场景下，一个负载均衡集群可能由几十个节点构成。尤其是对于七层负载均衡场景，单个负载均衡节点的容量较小，单个集群可达到数百个节点。在这种情况下，如果继续使用“主动健康检查”的机制，持续的健康检查探测请求会对下游的RS产生很大的压力。</p>
+<p><img src="./problem_active_check.png" alt="problem of active health check" /></p>
+<p>为了解决上面的问题，可以使用&quot;<strong>被动健康检查</strong>&quot;的机制，简要描述如下：</p>
+<ul>
+<li>在RS为“正常”的状态下，负载均衡系统不会主动向RS发送探测请求</li>
+<li>在RS为“正常”的状态下，如果RS<strong>处理业务请求</strong>连续失败的次数超过一定阈值，则改变RS的健康状态为“失败”</li>
+<li>在RS为“失败”的状态下，负载均衡系统向RS发送探测请求</li>
+<li>在RS为“失败”的状态下，如果连续探测成功的次数到达一定的阈值，则改变RS的健康状态为“正常”</li>
+</ul>
+<p>被动健康检查中RS的状态变化及主动探测的启停可以用一个下面的有限状态机来描述。</p>
+<p><img src="./fsm_passive_check.png" alt="fsm of passive health check" /></p>
+<h3><a class="header" href="#主动和被动的结合" id="主动和被动的结合">主动和被动的结合</a></h3>
+<p>和主动健康检查相比，被动健康检查的一个显著的差异是：使用正常的业务请求来“捎带”的进行探测。这样做的好处是：</p>
+<ul>
+<li>在RS正常的情况下，不需要额外的发送探测请求，从而降低了负载均衡系统和RS的处理成本</li>
+<li>在RS处理正常请求的频度较高（即，正常请求的频度远高于健康检查探测请求的频度）的情况下，被动健康检查可以更快的发现RS的异常</li>
+</ul>
+<p>被动健康检查也有它的缺点：</p>
+<ul>
+<li>如果无法对业务请求进行失败重试，在RS失败的情况下，可能导致正常请求的失败</li>
+<li>在业务请求频度较低（如：对某个RS，几分钟才有一个请求）的情况下，可能导致无法及时发现RS的失败</li>
+</ul>
+<p>综合主动方式和被动方式的优缺点，建议在实践中采用主动和被动相结合的方式：</p>
+<ul>
+<li>启用被动健康检查，可以帮助请求频度较高的RS快速发现失败的情况，而不需要承担高频探测请求的成本</li>
+<li>同时启动“低频”（如：30秒或60秒一次）的主动健康检查，用于及时发现请求频度较低RS的失败</li>
+</ul>
+<p>在使用主动和被动结合机制时，RS的健康状态由两种检查结果汇总得到。如果两者之一的检查结果为失败，则RS的状态为失败；仅当两种检查的结果都为成功时，RS状态才是成功。</p>
+<p><img src="./active_plus_passive.png" alt="active plus passive" /></p>
+<h2><a class="header" href="#集中式健康检查-vs-分布式健康检查" id="集中式健康检查-vs-分布式健康检查">集中式健康检查 vs 分布式健康检查</a></h2>
+<p>在使用主动健康检查机制时，按照探测器部署的位置，可以分为“分布式健康检查”和“集中式健康检查”。</p>
+<p>在<strong>分布式健康检查</strong>方式中，探测器和负载均衡转发程序同机部署。每个负载均衡转发实例都根据自己的探测结果维护独立的RS状态表。对于同一个RS，每个负载均衡转发实例由于服务器状态、网络状态（如TOR、路由、机房连通性）等方面的差异，可能关于健康状况得到不同的判断结果。这也恰恰是分布式健康检查的优势：它可以最准确的反映出每个负载均衡转发实例所“看到”的RS状况。</p>
+<p>分布式健康检查方式的一个问题是：如何得到全局的RS状态表。运维人员通常都需要在管理控制台上集中查看RS的状态信息。在分布式健康检查方式下，仅从一个负载均衡转发实例获取RS状态信息显然是不合理的，很可能出现“以偏概全”的情况；而如果从所有的负载均衡转发实例读取状态信息来汇总，在转发实例数量比较多的情况下，是一种很不经济的方案；如果只选取部分转发实例的信息，选择的策略也不是很简单的，需要考虑多种因素。</p>
+<p>分布式健康检查方式的另外一个问题是：即使发送探测请求的频度比较低，在转发实例数量比较大（如，上百个）、而下游RS的数量比较少（如，仅有几个）的时候，仍然会对RS产生很大的压力。</p>
+<p><img src="./distributed_check.png" alt="distributed check" /></p>
+<p>为了解决以上问题，可以使用&quot;<strong>集中式健康检查</strong>&quot;，要点描述如下：</p>
+<ul>
+<li>
+<p>探测器程序独立部署</p>
+<p>和数量较大的负载均衡转发实例相比，探测器的实例数相对较少。比如：在每个数据中心内部署几个探测器实例。</p>
+<p>在探测器的部署方面，可以有一定的考虑，比如：将探测器分布在数据中心不同的网络汇聚节点下及不同的TOR下。</p>
+</li>
+<li>
+<p>通过对探测器的状态汇总得到全局的RS状态表</p>
+</li>
+<li>
+<p>主动探测的结果会下发至各负载均衡转发实例</p>
+</li>
+<li>
+<p>负载均衡转发实例综合本地被动健康检查的结果和从中心获得的主动健康检查结果，汇总得到RS的状态</p>
+</li>
+</ul>
+<p><img src="./centralized_check.png" alt="centralized check" /></p>
+<p>负载均衡转发实例在使用从中心获得的主动健康检查结果时，要采取一定的容错机制，以防止无法及时获得主动健康检查结果的更新。可以考虑以下两种情况：</p>
+<ul>
+<li>
+<p>上次主动健康检查RS状态为“正常”，之后来自中心的更新中断</p>
+<p>在这种情况下，如果后续RS转变为“失败”，负载均衡转发实例可以根据本地的被动健康检查来发现，并不会导致严重的问题。</p>
+<p><img src="./centralized_check_normal2fail.png" alt="centralized check: normal to fail" /></p>
+</li>
+<li>
+<p>上次主动健康检查RS状态为“失败”，之后来自中心的更新中断</p>
+<p>在这种情况下，如果后续RS转变为“成功”，负载均衡转发实例继续使用之前获得的“失败”信息，从而继续判断RS为失败。这会导致始终无法将RS恢复为正常状态。</p>
+<p>对这个问题，可以在负载均衡转发节点增加超时机制来解决。对于从中心点获得的状态信息，在一定时间后失效。如果没有新的更新信息，则退化为只依靠本地的被动健康检查结果。</p>
+<p><img src="./centralized_check_fail2normal.png" alt="centralized check: fail to normal" /></p>
+</li>
+</ul>
+<h2><a class="header" href="#bfe的健康检查" id="bfe的健康检查">BFE的健康检查</a></h2>
+<p>BFE开源项目目前只支持被动健康检查。基于BFE开源项目所实现的商业版产品中包含了集中式的主动健康检查。</p>
+<p>未来将在BFE开源项目中增加分布式的主动健康检查。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../design/module/module.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../design/limit/limit.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../design/module/module.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../design/limit/limit.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

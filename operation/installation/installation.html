@@ -1,0 +1,374 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第十九章 BFE服务的安装部署 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html" class="active"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#bfe服务的安装部署" id="bfe服务的安装部署">BFE服务的安装部署</a></h1>
+<p>本章将对BFE的下载安装方式进行具体介绍，帮助读者了解如何运行BFE服务。</p>
+<h2><a class="header" href="#bfe安装方式" id="bfe安装方式">BFE安装方式</a></h2>
+<p>BFE支持多种方式进行安装，本章将介绍以下三种方式：</p>
+<ul>
+<li>软件包下载安装</li>
+<li>源代码编译安装</li>
+<li>docker方式安装</li>
+</ul>
+<h2><a class="header" href="#软件包方式下载安装" id="软件包方式下载安装">软件包方式下载安装</a></h2>
+<h3><a class="header" href="#获取bfe软件安装包" id="获取bfe软件安装包">获取BFE软件安装包</a></h3>
+<p>BFE的安装软件包可以直接从BFE项目在github.com的页面中下载。
+对于不同的操作系统(Linux/MacOS/windows)，页面上都提供了相应的软件包。</p>
+<p>下载地址如下：</p>
+<pre><code>https://github.com/bfenetworks/bfe/releases
+</code></pre>
+<p>读者可根据操作系统类型，选择所需的软件版本。</p>
+<h3><a class="header" href="#下载bfe软件包" id="下载bfe软件包">下载BFE软件包</a></h3>
+<p>以Linux环境为例，下载BFE的1.0.0版本。</p>
+<p>在上述下载页面上，找到&quot;BFE v1.0.0&quot;，点击展开“Asserts”，如下图：</p>
+<p><img src="img/v100_assert.png" alt="" /></p>
+<p>点击下载名为&quot;bfe_1.0.0_linux_amd64.tar.gz&quot;的压缩包。</p>
+<h3><a class="header" href="#bfe软件包中的内容" id="bfe软件包中的内容">BFE软件包中的内容</a></h3>
+<p>解压下载的文件bfe_1.0.0_linux_amd64.tar.gz：</p>
+<pre><code>sh-4.2# tar zxf bfe_1.0.0_linux_amd64.tar.gz 
+sh-4.2# 
+sh-4.2# cd bfe_1.0.0_linux_amd64
+sh-4.2# 
+sh-4.2# ls 
+CHANGELOG.md	LICENSE		README.md	bin		conf
+</code></pre>
+<p>其中包括了两个主要目录：</p>
+<ul>
+<li>bin ： 该目录包含可执行程序bfe。</li>
+</ul>
+<pre><code>sh-4.2$ ls bin
+bfe
+</code></pre>
+<ul>
+<li>conf： 该目录中包含了bfe的配置文件。其中，bfe.conf为BFE的主配置文件。</li>
+</ul>
+<pre><code>sh-4.2$ ls conf
+bfe.conf		mod_block		mod_header		mod_static		server_data_conf
+cluster_conf		mod_compress		mod_key_log		mod_tag			tls_conf
+mod_access		mod_cors		mod_markdown		mod_trace
+mod_auth_basic		mod_doh			mod_prison		mod_trust_clientip
+mod_auth_jwt		mod_errors		mod_redirect		mod_userid
+mod_auth_request	mod_geo			mod_rewrite		mod_waf
+</code></pre>
+<h3><a class="header" href="#运行bfe服务" id="运行bfe服务">运行BFE服务</a></h3>
+<p>执行如下命令，在系统后台启动一个BFE实例。该实例使用了缺省配置启动。</p>
+<pre><code>sh-4.2# cd bin
+sh-4.2# ./bfe -c ../conf -l ../log &amp;
+[1] 31024
+</code></pre>
+<p>检查端口8080，可以发现已经处于listen状态</p>
+<pre><code>sh-4.2$ ss -nltp | grep 8080
+0      2048                           *:8080                          *:*      users:((&quot;bfe&quot;,31024,10))
+</code></pre>
+<h3><a class="header" href="#停止bfe服务" id="停止bfe服务">停止BFE服务</a></h3>
+<p>如需要停止BFE服务，直接执行kill命令: </p>
+<pre><code>sh-4.2$ kill 31024
+sh-4.2$ 
+[1]+  Done                    ./bfe -c ../conf -l ../log
+</code></pre>
+<h3><a class="header" href="#在macos或windows中下载安装bfe" id="在macos或windows中下载安装bfe">在MacOs或windows中下载安装BFE</a></h3>
+<p>与Linux系统下安装过程相似：在下载页面 <em>https://github.com/bfenetworks/bfe/releases</em> 中下载对应操作系统版本的BFE安装包后，就可启动BFE服务。</p>
+<h2><a class="header" href="#源代码编译方式安装" id="源代码编译方式安装">源代码编译方式安装</a></h2>
+<p>BFE源代码完全在github.com上开源，用户也可以通过自行编译源代码的方式进行适配安装。</p>
+<h3><a class="header" href="#环境准备" id="环境准备">环境准备</a></h3>
+<ul>
+<li>环境要求
+<ul>
+<li>golang 1.13+</li>
+<li>git 2.0+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>Go语言环境准备</p>
+<p>下载地址为 <em>https://golang.org/dl/</em> 或者 <em>https://golang.google.cn/dl/</em>。</p>
+<p>在下载页面，用户可以根据使用的操作系统环境，下载相应的版本。
+下载后，按照 <em>https://golang.org/doc/install</em> 或者 <em>https://golang.google.cn/doc/install</em> 的说明，进行安装。</p>
+</li>
+<li>
+<p>git安装</p>
+<p>用户需要安装git命令，具体安装不再赘述。</p>
+</li>
+</ul>
+<h3><a class="header" href="#bfe源码下载" id="bfe源码下载">BFE源码下载</a></h3>
+<p>通过 <em>git clone</em> 命令，下载BFE源代码</p>
+<pre><code class="language-bash">$ git clone https://github.com/bfenetworks/bfe
+</code></pre>
+<h3><a class="header" href="#bfe源代码编译" id="bfe源代码编译">BFE源代码编译</a></h3>
+<p>进入目录<em>bfe</em>，执行<em>make</em>命令，编译BFE源代码:</p>
+<pre><code class="language-bash">$ cd bfe
+$ make
+</code></pre>
+<blockquote>
+<p>tips: 如果遇到超时错误&quot;https fetch: Get ... connect: connection timed out&quot;, 请设置GO_PROXY代理后重试.</p>
+</blockquote>
+<h3><a class="header" href="#运行bfe" id="运行bfe">运行BFE</a></h3>
+<p>编译后完成后，可执行目标文件在目录*output/bin/*下:</p>
+<pre><code class="language-bash">$ file output/bin/bfe
+output/bin/bfe: ELF 64-bit LSB executable, ...
+</code></pre>
+<p>执行如下命令，运行BFE服务:</p>
+<pre><code class="language-bash">$ cd output/bin/
+$ ./bfe -c ../conf -l ../log
+</code></pre>
+<h2><a class="header" href="#docker方式安装运行" id="docker方式安装运行">docker方式安装运行</a></h2>
+<p>BFE也提供了基于docker的容器镜像，可以方便的通过docker进行安装部署。
+BFE的镜像可以在docker hub中找到 <em>https://hub.docker.com/r/bfenetworks/bfe</em></p>
+<h3><a class="header" href="#docker环境设置" id="docker环境设置">docker环境设置</a></h3>
+<p>参考 <em>docker.com</em>，设置好系统的docker环境。</p>
+<h3><a class="header" href="#运行bfe容器" id="运行bfe容器">运行BFE容器</a></h3>
+<p>执行以下命令可以启动一个BFE容器</p>
+<pre><code class="language-bash"># docker run -d -p 8080:8080 -p 8443:8443 -p 8421:8421 bfenetworks/bfe
+</code></pre>
+<p><img src="img/docker_run.png" alt="" /></p>
+<p>上述命令将运行一个BFE容器，同时把BFE容器中的三个缺省端口映射到本地。</p>
+<p>查看容器的运行状态，可以看到容器id为7e15304bb972
+<img src="img/docker_ps.png" alt="" /></p>
+<p>如果要停止容器的运行，可以执行以下命令：
+<img src="img/docker_stop.png" alt="" /></p>
+<h2><a class="header" href="#bfe命令行参数" id="bfe命令行参数">BFE命令行参数</a></h2>
+<p>在上面的章节中，我们使用了最常用的命令行参数 <em>-c</em> 和 <em>-l</em> 。BFE支持的命令行参数如下。</p>
+<table><thead><tr><th>选项</th><th>说明</th></tr></thead><tbody>
+<tr><td>-c &lt;config dir&gt;</td><td>配置文件的根目录，默认路径./conf</td></tr>
+<tr><td>-l &lt;log dir&gt;</td><td>日志文件的根目录，默认路径./log</td></tr>
+<tr><td>-s</td><td>打印log到stdout</td></tr>
+<tr><td>-d</td><td>打印debug日志</td></tr>
+<tr><td>-v</td><td>显示bfe的版本号</td></tr>
+<tr><td>-V</td><td>显示bfe的版相关的详细信息</td></tr>
+<tr><td>-h</td><td>显示帮助</td></tr>
+</tbody></table>
+<h2><a class="header" href="#查看bfe服务的运行状态" id="查看bfe服务的运行状态">查看BFE服务的运行状态</a></h2>
+<p>BFE提供了接口，可以通过该接口查看服务运行的各种状态数据。端口缺省为8421。用户可以直接使用浏览器访问该端口，如下图：</p>
+<p><img src="img/v100_monitor.png" alt="" /></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../design/info_pass_through/pass_through.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../operation/configuration/basic.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../design/info_pass_through/pass_through.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../operation/configuration/basic.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

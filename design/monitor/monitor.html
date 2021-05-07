@@ -1,0 +1,451 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第十三章 监控机制 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html" class="active"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#监控机制" id="监控机制">监控机制</a></h1>
+<p>BFE作为一个七层负载均衡软件，需要7*24小时的持续稳定运转。为了保证系统的稳定性和正确性，对于系统的监控非常重要。下面对BFE的监控机制做一个简要的介绍。</p>
+<h2><a class="header" href="#日志监控及其问题" id="日志监控及其问题">日志监控及其问题</a></h2>
+<p>很多系统依赖于对外输出的错误日志来发现系统的问题，具体方法是：</p>
+<ul>
+<li>在错误发生时，打印日志，其中包含错误的信息</li>
+<li>配置监控系统，对于日志的内容进行监控，如果发现有错误的信息，则输出报警</li>
+</ul>
+<p>在很多时候，不仅希望看到系统错误的情况，也希望能够看到系统的一些状态。比如：目前并发的连接数有多少，每秒处理请求的数量有多少，等等。类似这样的需求，在很多系统中也是依靠分析系统输出的日志来实现的。</p>
+<p>基于系统日志来监控的机制，存在以下问题：</p>
+<ul>
+<li>
+<p>被监控系统的资源消耗较高</p>
+<p>打印日志会使用磁盘IO，是一个消耗资源很高的操作。如果是输出文本日志，日志格式化时所进行的字符串操作也是消耗CPU资源较多的。</p>
+<p>大家可以做这样的试验：对于BFE或者Nginx，打开或关闭访问日志的输出，会看到明显的性能变化。</p>
+</li>
+<li>
+<p>监控系统的资源消耗较高</p>
+<p>对日志进行监控，监控系统要进行读取、解析、匹配等操作，都是资源消耗较多的。</p>
+<p>曾经听说过这样的案例：业务系统运行时使用了4核CPU；为了分析这个系统输出的日志，监控系统也使用了4核CPU。监控使用了和业务系统几乎一样多的资源，成本有些太高了。</p>
+</li>
+<li>
+<p>很多状态信息并不适合都打印输出</p>
+<p>如果希望了解BFE内部系统间的调用处理情况，不可能将这些内部调用的情况都通过打印日志的方式输出。</p>
+</li>
+</ul>
+<h2><a class="header" href="#bfe的内部状态输出" id="bfe的内部状态输出">BFE的内部状态输出</a></h2>
+<p><img src="./bfe_status.png" alt="bfe status" /></p>
+<p>为了更方便的向外展示内部的状态信息，BFE做了一些专门的设计：</p>
+<ul>
+<li>在BFE的主逻辑和BFE的各扩展模块中，使用专门的存储来维护状态信息</li>
+<li>在BFE程序中嵌入一个Web Server，用于外部读取BFE内部的状态信息及触发配置加载</li>
+</ul>
+<p>下面是一个在浏览器中查看从BFE监控端口读取结果的例子。状态信息默认以JSON格式输出，每项包括状态变量名及变量的值。比如：CLIENT_REQ_ACTIVE是指当前活跃的请求数，CLIENT_REQ_SERVED是指从BFE程序启动以来，一共服务的请求数。</p>
+<p><img src="./bfe_status_demo.png" alt="bfe status demo" /></p>
+<p>这个设计的好处是：</p>
+<ul>
+<li>
+<p>状态信息可以低成本的收集和汇聚</p>
+<p>一个状态的累加计算，成本仅仅是对BFE内存中一个变量的“加1”操作。</p>
+</li>
+<li>
+<p>状态信息可以低成本的读取</p>
+<p>监控系统通过BFE对外的监控端口，一次可以读取几十甚至几百个变量。由于BFE所输出的状态信息为格式化数据，也便于监控系统对内容进行解析。</p>
+</li>
+</ul>
+<p>通过以上方式，BFE向外暴露数千个内部状态信息，可以反映出系统内部各方面的实时状态。使用监控系统（如Prometheus）对各BFE程序实例的状态信息做采集和汇聚，可以形成BFE集群的运维仪表盘。</p>
+<p><img src="./bfe_dashboard.png" alt="bfe dashboard" /></p>
+<h2><a class="header" href="#统计状态和日志的配合使用" id="统计状态和日志的配合使用">统计状态和日志的配合使用</a></h2>
+<p>虽然监控不需要依赖日志，但是日志仍然是有用的。</p>
+<ul>
+<li>对于一些错误，从状态信息只能看到&quot;错误的发生&quot;，但是无法看到“错误的细节”</li>
+<li>在这种场景，在基于状态信息监控到错误的发生后，可以进一步查询对应的日志，以便进一步深入了解错误的情况</li>
+</ul>
+<p>关于BFE日志的机制，可以参考“<a href="../log/log.html">日志机制</a>”。</p>
+<h2><a class="header" href="#web-monitor基础库" id="web-monitor基础库">Web Monitor基础库</a></h2>
+<p>以上所介绍的BFE相关状态输出机制已经封装为独立的基础库，命名为Web Monitor。下面介绍一下Web Monitor的设计机制和使用方法。</p>
+<p>Web Monitor的代码位于<a href="https://github.com/baidu/go-lib">https://github.com/baidu/go-lib</a> 中的web-monitor目录下。</p>
+<h3><a class="header" href="#概述" id="概述">概述</a></h3>
+<p>Web Monitor提供Web接口，帮助持续运行的后台程序提供内部状态展示和配置热加载功能。</p>
+<p>Web Monitor中主要提供以下3类支持：</p>
+<ul>
+<li>
+<p>专用的定制Web Server</p>
+<p>这个Web Server可以嵌入到后台程序中运行</p>
+</li>
+<li>
+<p>回调接口注册</p>
+<p>需要外部访问状态或配置热加载的后台程序模块，可以向Web Monitor注册对应的状态展示函数或配置加载函数</p>
+</li>
+<li>
+<p>内部状态维护</p>
+<p>Web Monitor为后台程序维护内部状态提供了多种形式的支持</p>
+</li>
+</ul>
+<h3><a class="header" href="#状态变量维护" id="状态变量维护">状态变量维护</a></h3>
+<h4><a class="header" href="#变量类型" id="变量类型">变量类型</a></h4>
+<p>在内部状态维护场景，考虑了以下几种场景：</p>
+<ul>
+<li>计数器变量（Counter）：只能单向增长</li>
+<li>计量变量（Gauge）：可以增加、减少，也可以直接改变取值</li>
+<li>状态变量（State）：可以设置一个字符串作为状态，如“on”、“off”、“red”、“green”</li>
+</ul>
+<p>以上几种变量对应的类型定义可以查看<a href="https://github.com/baidu/go-lib">https://github.com/baidu/go-lib</a> 中 <a href="https://github.com/baidu/go-lib/tree/master/web-monitor/metrics">/web-monitor/metrics</a>目录下的counter.go、gauge.go和state.go。</p>
+<h4><a class="header" href="#差值计算" id="差值计算">差值计算</a></h4>
+<p>对于计数器变量，Web Monitor还提供了“获取指定时间周期内的差值”的能力。比如，对于&quot;CLIENT_REQ_SERVED&quot;，获取BFE程序启动后一共处理了多少请求并没有太大意义，我们更希望得到“最近20秒内服务了多少请求”。获取差值的能力实现在<a href="https://github.com/baidu/go-lib/tree/master/web-monitor/metrics">/web-monitor/metrics</a>的metrics.go中。Metrics的用法如下：</p>
+<p>(1) 定义包含统计变量的数据类型</p>
+<pre><code>import &quot;github.com/baidu/go-lib/web-monitor/metrics&quot;
+
+// define counter struct type
+type ServerState {
+	ReqServed *metrics.Counter
+	ConServed *metrics.Counter
+	ConActive *metrics.Gauge
+}
+
+var s ServerState
+</code></pre>
+<p>(2) 定义和初始化Metrics变量</p>
+<p>在Metrics的Init()函数中</p>
+<ul>
+<li>
+<p>第二个参数为“前缀字符串”</p>
+<p>Web Monitor输出有一种格式为key-value方式，在这种方式下输出时，会将“前缀字符串“放在原始的变量名称前面，以便在复杂场景时在全局区分各统计变量。在这个例子中，增加了”PROXY“前缀，以key-value方式输出时会显示为：</p>
+</li>
+</ul>
+<pre><code>PROXY_REQ_SERVED: 0
+PROXY_CON_SERVED: 0
+PROXY_CON_ACTIVE: 0
+</code></pre>
+<ul>
+<li>
+<p>第三个参数为“差值计算的间隔时间”</p>
+<p>这个例子中设为20秒</p>
+</li>
+</ul>
+<pre><code>// create metrics
+var m metrics.Metrics
+m.Init(&amp;s, &quot;PROXY&quot;, 20)
+</code></pre>
+<p>(3) 统计变量的相关操作。如：</p>
+<pre><code>// counter operations
+s.ConActive.Inc(2)
+s.ConServed.Inc(1)
+s.ReqServed.Inc(1)
+s.ConActive.Dec(1)
+</code></pre>
+<p>(4) 获得结果</p>
+<p>通过调用Metrics的GetAll()接口，可以获得其中所有变量的“绝对值”；调用GetDiff()接口，可以获得其中Counter类型在20秒内的“变化值”。</p>
+<pre><code>// get absoulute data for all metrics
+stateData := m.GetAll()
+// get diff data for all counters
+stateDiff := m.GetDiff()
+</code></pre>
+<h4><a class="header" href="#使用案例" id="使用案例">使用案例</a></h4>
+<p>BFE主逻辑的统计变量定义在<a href="https://github.com/bfenetworks/bfe/blob/develop/bfe_server">/bfe_server</a>目录下的proxy_state.go中。</p>
+<p>在扩展模块开发中也会使用状态变量的机制，可以参考&quot;<a href="../../develop/how_to_write_module/how_to_write_module.html">如何开发BFE扩展模块</a>&quot;中的说明。</p>
+<h3><a class="header" href="#延迟统计变量维护" id="延迟统计变量维护">延迟统计变量维护</a></h3>
+<p>在BFE中，也需要对一些处理的延迟进行统计，如：转发处理的延迟，HTTPS握手的延迟等。</p>
+<p>在Web Monitor中，提供了Delay Counter的机制，以支持对于延迟的统计。</p>
+<h4><a class="header" href="#机制说明" id="机制说明">机制说明</a></h4>
+<p>Delay Counter支持以下能力：</p>
+<ul>
+<li>
+<p>平均延迟</p>
+<p>通过记录样本的数量和延迟总和，可以计算得到平均延迟</p>
+</li>
+<li>
+<p>延迟的分布</p>
+<p>可以用户可以指定延迟统计分档的数量及每个分档的时间大小，可以获得落入各延迟分档的请求数量</p>
+</li>
+</ul>
+<p>以上这些统计数据，都是针对一定的时间周期的。Delay Counter的使用者需要指定统计的周期（如：60秒）。Delay Counter会显示“当前周期”的统计数据，如果刷新Web Monitor的接口，会发现这些统计数据在持续发生变化。从观测长期变化的角度，需要在每个周期结束后，获取其稳定不变的统计值，为此Delay Counter也会同时提供“上一周期”的统计结果。</p>
+<p><img src="./delay_bucket.png" alt="delay_bucket" /></p>
+<h4><a class="header" href="#使用方法" id="使用方法">使用方法</a></h4>
+<p>Delay Counter的用法如下：</p>
+<p>(1) 定义和初始化Delay Counter</p>
+<pre><code>import &quot;github.com/baidu/go-lib/web-monitor/delay_counter&quot;
+
+ProxyDelay = new(delay_counter.DelayRecent)
+	
+// Init的3个参数为： 统计周期，延迟分档（毫秒），分档个数
+ProxyDelay.Init(60, 1, 10)
+</code></pre>
+<p>(2)  增加样本值</p>
+<pre><code>ProxyDelay.AddBySub(startTime, endTime)
+</code></pre>
+<p>(3) 输出文本形式的结果</p>
+<pre><code>// params是由Web Monitor的Web Server传入的参数
+ProxyDelay.FormatOutput(params)
+</code></pre>
+<h3><a class="header" href="#建立专用的web-server" id="建立专用的web-server">建立专用的Web Server</a></h3>
+<p>BFE内嵌的监控专用Web Server，在<a href="https://github.com/bfenetworks/bfe/blob/develop/bfe_server">/bfe_server</a>的web_server.go中定义：</p>
+<pre><code>func newBfeMonitor(srv *BfeServer, monitorPort int) (*BfeMonitor, error) {
+	m := &amp;BfeMonitor{nil, nil, srv}
+
+	// initialize web handlers
+	m.WebHandlers = web_monitor.NewWebHandlers()
+	if err := m.WebHandlersInit(m.srv); err != nil {
+		log.Logger.Error(&quot;newBfeMonitor(): in WebHandlersInit(): &quot;, err.Error())
+		return nil, err
+	}
+
+	// initialize web server
+	m.WebServer = web_monitor.NewMonitorServer(&quot;bfe&quot;, srv.Version, monitorPort)
+	m.WebServer.HandlersSet(m.WebHandlers)
+
+	return m, nil
+}
+</code></pre>
+<p>上面的代码中，建立了维护回调函数的变量m.WebHandlers，也建立了Web Server的变量m.WebServer。</p>
+<p>最后，启动Web Server</p>
+<pre><code>func (m *BfeMonitor) Start() {
+	go m.WebServer.Start()
+}
+</code></pre>
+<h3><a class="header" href="#注册回调函数" id="注册回调函数">注册回调函数</a></h3>
+<p>在上面一段所调用的m.WebHandlersInit()中，既注册了用于显示内部状态的回调函数，也注册了用于动态加载配置的回调函数：</p>
+<pre><code>func (m *BfeMonitor) WebHandlersInit(srv *BfeServer) error {
+	// register handlers for monitor
+	err := web_monitor.RegisterHandlers(m.WebHandlers, web_monitor.WebHandleMonitor,
+		m.monitorHandlers())
+	if err != nil {
+		return err
+	}
+
+	// register handlers for for reload
+	err = web_monitor.RegisterHandlers(m.WebHandlers, web_monitor.WebHandleReload,
+		m.reloadHandlers())
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+</code></pre>
+<p>以上是BFE主逻辑注册回调函数的逻辑。在各扩展模块，也有独立的注册逻辑，可以参考&quot;<a href="../../develop/how_to_write_module/how_to_write_module.html">如何开发BFE扩展模块</a>&quot;中的说明。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../design/limit/limit.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../design/log/log.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../design/limit/limit.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../design/log/log.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第二十三章 配置rewrite - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html" class="active"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#配置rewrite" id="配置rewrite">配置rewrite</a></h1>
+<p>本章介绍如何配置HTTP rewrite。该功能对收到的HTTP请求消息进行修改，再转发到后端服务。</p>
+<h2><a class="header" href="#开启rewrite" id="开启rewrite">开启rewrite</a></h2>
+<p>在conf/bfe.conf中，打开该模块</p>
+<pre><code class="language-ini">Modules = mod_write
+</code></pre>
+<h2><a class="header" href="#模块配置" id="模块配置">模块配置</a></h2>
+<p>模块配置在目录conf/mod_rewrite/中，包含两个文件:</p>
+<pre><code>$ ls
+mod_rewrite.conf	rewrite.data
+</code></pre>
+<p>mod_rewrite.conf为模块基础配置文件，指向rewrite规则文件，通常无需修改。</p>
+<pre><code>$ cat mod_rewrite.conf 
+[basic]
+DataPath = mod_rewrite/rewrite.data
+</code></pre>
+<p>rewrite.data 包含rewrite规则，可动态加载。安装包中的示例配置文件如下：</p>
+<pre><code>$ cat rewrite.data 
+{
+    &quot;Version&quot;: &quot;1&quot;,
+    &quot;Config&quot;: {
+        &quot;example_product&quot;: [
+            {
+                &quot;Cond&quot;: &quot;req_path_prefix_in(\&quot;/rewrite\&quot;, false)&quot;,
+                &quot;Actions&quot;: [
+                    {
+                        &quot;Cmd&quot;: &quot;PATH_PREFIX_ADD&quot;,
+                        &quot;Params&quot;: [
+                            &quot;/bfe/&quot;
+                        ]
+                    }
+                ],
+                &quot;Last&quot;: true
+            }
+        ]
+    }
+}
+
+</code></pre>
+<p>上述配置为产品线<em>example_product</em>中增加了一个规则：对满足条件&quot;Cond&quot;的请求，执行&quot;Actions&quot;动作（包含动作名&quot;Cmd&quot;和对应的参数），如果&quot;Last&quot;为true，停止执行后续动作，否则继续匹配下一条规则。</p>
+<p>最终，该规则将修改Path为/rewrite开头的请求，为其增加路径前缀/bfe/，也就是将Path从/rewrite变为/bfe/rewrite。</p>
+<h2><a class="header" href="#重写动作" id="重写动作">重写动作</a></h2>
+<p>&quot;Actions&quot;中的&quot;Cmd&quot;指示了具体的重写动作。</p>
+<h3><a class="header" href="#host_set" id="host_set">HOST_SET</a></h3>
+<p>设置请求header中的Host值，参数为需设置的值。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;Cmd&quot;: &quot;HOST_SET&quot;, 
+    &quot;Params&quot;: [&quot;www.example.com&quot;]
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://abc.example.com |
+|修改后   | http://www.example.com |</p>
+<br />
+<h3><a class="header" href="#host_set_from_path_prefix" id="host_set_from_path_prefix">HOST_SET_FROM_PATH_PREFIX</a></h3>
+<p>将Path中的第一段设置为Host的值，并在Path中去掉该段。例如：如果Path为/x.example.com/xxxx，设置Host为 x.example.com，PATH为/xxxx。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;cmd&quot;: &quot;HOST_SET_FROM_PATH_PREFIX&quot;, 
+    &quot;params&quot;: []
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://www.example.com/test.example.com/xxxx |
+|修改后   | http://test.example.com/xxxx |</p>
+<br />
+<h3><a class="header" href="#host_suffix_replace" id="host_suffix_replace">HOST_SUFFIX_REPLACE</a></h3>
+<p>替换域名中的特定后缀。两个参数分别为被替换的后缀字符串和替换后的字符串。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;cmd&quot;: &quot;HOST_SUFFIX_REPLACE&quot;, 
+    &quot;params&quot;: [&quot;net&quot;, &quot;com&quot;]
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://www.example.net |
+|修改后   | http://www.example.com |</p>
+<br />
+<h3><a class="header" href="#path_set" id="path_set">PATH_SET</a></h3>
+<p>设置Path为指定值，参数为的新Path值。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;cmd&quot;: &quot;PATH_SET&quot;, 
+    &quot;params&quot;: [&quot;/index&quot;]
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://www.example.com/current |
+|修改后   | http://www.example.com/index |</p>
+<br />
+<h3><a class="header" href="#path_prefix_add" id="path_prefix_add">PATH_PREFIX_ADD</a></h3>
+<p>为Path增加前缀，参数为需增加的前缀。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;cmd&quot;: &quot;PATH_PREFIX_ADD&quot;, 
+    &quot;params&quot;: [&quot;/index&quot;]
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://www.example.com/current |
+|修改后   | http://www.example.com/index/current |</p>
+<br />
+<h3><a class="header" href="#path_prefix_trim" id="path_prefix_trim">PATH_PREFIX_TRIM</a></h3>
+<p>删除Path前缀，参数为需删除的前缀。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;cmd&quot;: &quot;PATH_PREFIX_TRIM&quot;, 
+    &quot;params&quot;: [&quot;/service&quot;]
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://www.example.com/service/index.html |
+|修改后   | http://www.example.com/index.html |</p>
+<br />
+<h3><a class="header" href="#query_add" id="query_add">QUERY_ADD</a></h3>
+<p>增加Query，参数指定需增加的query的key和value。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;cmd&quot;: &quot;QUERY_ADD&quot;, 
+    &quot;params&quot;: [&quot;name&quot;, &quot;alice&quot;]
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://www.example.com/ |
+|修改后   | http://www.example.com/?name=alice |</p>
+<br />
+<h3><a class="header" href="#query_rename" id="query_rename">QUERY_RENAME</a></h3>
+<p>对Query重命名，参数指定key的原名字和新名字。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;cmd&quot;: &quot;QUERY_ADD&quot;, 
+    &quot;params&quot;: [&quot;name&quot;, &quot;user&quot;]
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://www.example.com/?name=alice |
+|修改后   | http://www.example.com/?user=alice |</p>
+<br />
+<h3><a class="header" href="#query_del" id="query_del">QUERY_DEL</a></h3>
+<p>删除指定Query，参数指定key的名字。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;cmd&quot;: &quot;QUERY_ADD&quot;, 
+    &quot;params&quot;: [&quot;name&quot;]
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://www.example.com/?name=alice |
+|修改后   | http://www.example.com/ |</p>
+<br />
+<h3><a class="header" href="#query_del_all_except" id="query_del_all_except">QUERY_DEL_ALL_EXCEPT</a></h3>
+<p>删除Query中指定key外所有其他key。</p>
+<p>示例：</p>
+<pre><code class="language-json">{
+    &quot;cmd&quot;: &quot;QUERY_DEL_ALL_EXCEPT&quot;, 
+    &quot;params&quot;: [&quot;name&quot;]
+}
+</code></pre>
+<p>结果：
+| | |
+|-|-|
+|原始值   | http://www.example.com/?name=alice?key1=value2&amp;key2=value2 |
+|修改后   | http://www.example.com/?name=alice |</p>
+<br />
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../operation/configuration/https.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../operation/configuration/redirect.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../operation/configuration/https.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../operation/configuration/redirect.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

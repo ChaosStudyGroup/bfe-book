@@ -1,0 +1,659 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第三十三章 核心协议实现 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html" class="active"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#核心协议实现" id="核心协议实现">核心协议实现</a></h1>
+<p>BFE的HTTP/HTTP2/SPDY/WebSocket/TLS等网络协议基于Go语言官方开源协议库。为更好满足反向代理的需求场景，在BFE中进行了二次定制开发，包括性能优化、防攻击机制完善、兼容性改进、增加探针等。</p>
+<p>本章重点介绍HTTP/HTTP2协议的实现。SPDY的实现与HTTP2的实现非常相似，这里不再赘述。其它协议的实现可参考<a href="../source_layout/source_layout.html">BFE的代码组织</a>中的说明查阅对应源码，也可在BFE开源社区提问交流。</p>
+<h2><a class="header" href="#http协议" id="http协议">HTTP协议</a></h2>
+<h3><a class="header" href="#http代码的组织" id="http代码的组织">HTTP代码的组织</a></h3>
+<p>在bfe_http目录下包含如下代码：</p>
+<pre><code class="language-bash">$ ls bfe/bfe_http
+chunked.go       cookie.go       header_test.go  readrequest_test.go   response.go            sniff.go     transfer_test.go
+chunked_test.go  cookie_test.go  httputil        request.go            response_test.go       state.go     transport.go
+client.go        eof_reader.go   lex.go          request_test.go       response_writer.go     status.go
+common.go        header.go       lex_test.go     requestwrite_test.go  responsewrite_test.go  transfer.go
+</code></pre>
+<p>各文件的功能说明如下：</p>
+<table><thead><tr><th>类别</th><th>文件名或目录</th><th>说明</th></tr></thead><tbody>
+<tr><td>基础类型</td><td>common.go</td><td>HTTP基础数据类型定义</td></tr>
+<tr><td></td><td>state.go</td><td>HTTP协议内部状态指标</td></tr>
+<tr><td></td><td>eof_reader.go</td><td>EofReader类型定义，实现了io.ReadCloser接口，并永远返回EOF</td></tr>
+<tr><td>协议消息</td><td>request.go</td><td>HTTP请求类型的定义、读取及发送</td></tr>
+<tr><td></td><td>response.go</td><td>HTTP响应类型的定义、读取及发送</td></tr>
+<tr><td></td><td>header.go</td><td>HTTP头部类型定义及相关操作</td></tr>
+<tr><td></td><td>cookie.go</td><td>HTTP Cookie字段的处理</td></tr>
+<tr><td></td><td>status.go</td><td>HTTP响应状态码定义</td></tr>
+<tr><td></td><td>lex.go</td><td>HTTP合法字符表</td></tr>
+<tr><td>消息收发</td><td>client.go</td><td>RoundTrpper接口定义，支持并发的发送请求并获取响应</td></tr>
+<tr><td></td><td>transport.go</td><td>HTTP连接池管理，实现了RoundTrpper接口，在反向代理场景用于管理与后端的HTTP通信</td></tr>
+<tr><td></td><td>transfer.go</td><td>transferWriter/transfterReader类型定义，在反向代理场景用于向后端流式发送请求及读取响应</td></tr>
+<tr><td></td><td>response_writer.go</td><td>ResponseWriter类型定义，在反向代理场景用于构造响应并发送</td></tr>
+<tr><td>辅助工具</td><td>httputil</td><td>HTTP相关辅助函数</td></tr>
+<tr><td></td><td>chunked.go</td><td>HTTP Chunked编码处理</td></tr>
+<tr><td></td><td>sniff.go</td><td>HTTP MIME检测算法实现(https://mimesniff.spec.whatwg.org)</td></tr>
+</tbody></table>
+<h3><a class="header" href="#从用户读取http请求" id="从用户读取http请求">从用户读取HTTP请求</a></h3>
+<p>在 bfe_http/request.go文件中实现了从HTTP连接上读取一个HTTP请求，包括以下步骤：</p>
+<ul>
+<li>读取HTTP请求行并解析请求方法、URI及协议版本号</li>
+<li>读取HTTP请求头部并解析</li>
+<li>读取HTTP请求主体</li>
+</ul>
+<pre><code class="language-go">// bfe_http/request.go
+
+// ReadRequest reads and parses a request from b.
+func ReadRequest(b *bfe_bufio.Reader, maxUriBytes int) (req *Request, err error) {
+  	tp := newTextprotoReader(b)
+  	req = new(Request)
+	  req.State = new(RequestState)
+
+	  // Read first line (eg. GET /index.html HTTP/1.0)
+	  var s string
+	  if s, err = tp.ReadLine(); err != nil {
+	    	return nil, err
+	  }
+    ...
+
+  	// Parse request method, uri, proto
+  	var ok bool
+  	req.Method, req.RequestURI, req.Proto, ok = parseRequestLine(s)
+  	if !ok {
+	    	return nil, &amp;badStringError{&quot;malformed HTTP request&quot;, s}
+   	}
+  	rawurl := req.RequestURI
+  	if req.ProtoMajor, req.ProtoMinor, ok = ParseHTTPVersion(req.Proto); !ok {
+	    	return nil, &amp;badStringError{&quot;malformed HTTP version&quot;, req.Proto}
+	  }
+	  if req.URL, err = url.ParseRequestURI(rawurl); err != nil {
+		    return nil, err
+  	}
+    ...
+
+  	// Read and parser request header
+  	mimeHeader, headerKeys, err := tp.ReadMIMEHeaderAndKeys()
+  	if err != nil {
+    		return nil, err
+  	}
+  	req.Header = Header(mimeHeader)
+  	req.HeaderKeys = headerKeys
+    ...
+
+    // Read request body
+  	err = readTransfer(req, b)
+  	if err != nil {
+	    	return nil, err
+  	}
+
+  	return req, nil
+}
+
+</code></pre>
+<p>注意在最后一个步骤中，readTransfer(req, b)并未直接将请求内容立即读取到内存中。如果这样做，会大大增加反向代理的内存开销，同时也会增加请求转发延迟。</p>
+<p>在readTransfer函数中，根据请求方法、传输编码、请求主体长度，返回满足io.ReadCloser接口类型的不同实现，用于按需读取请求内容。</p>
+<pre><code class="language-go">// bfe_http/transfer.go
+
+// Prepare body reader. ContentLength &lt; 0 means chunked encoding
+// or close connection when finished, since multipart is not supported yet
+switch {
+case chunked(t.TransferEncoding):
+		if noBodyExpected(t.RequestMethod) {
+			  t.Body = EofReader
+		} else {
+			  t.Body = &amp;body{src: newChunkedReader(r), hdr: msg, r: r, closing: t.Close}
+		}
+  
+case realLength == 0:
+		t.Body = EofReader
+  
+case realLength &gt; 0:
+		// set r for peek data from body
+		t.Body = &amp;body{src: io.LimitReader(r, realLength), r: r, closing: t.Close}
+  
+default:
+		// realLength &lt; 0, i.e. &quot;Content-Length&quot; not mentioned in header
+		if t.Close {
+			  // Close semantics (i.e. HTTP/1.0)
+			  t.Body = &amp;body{src: r, closing: t.Close}
+		} else {
+			  // Persistent connection (i.e. HTTP/1.1)
+			  t.Body = EofReader
+		}
+}
+</code></pre>
+<h3><a class="header" href="#向后端转发请求并获取响应" id="向后端转发请求并获取响应">向后端转发请求并获取响应</a></h3>
+<p>在 bfe_http/transport.go中Transport类型实现了RoundTripper接口，支持发送请求并获取响应。主要包括以下步骤：</p>
+<ul>
+<li>检查请求的合法性</li>
+<li>从连接池获取到目地后端的闲置连接，或新建连接（如无闲置连接）</li>
+<li>使用该连接发送请求，并读取响应</li>
+</ul>
+<p>连接的数据类型是persistConn，包含的核心成员如下：</p>
+<pre><code class="language-go">// bfe_http/transport.go
+
+// persistConn wraps a connection, usually a persistent one
+// (but may be used for non-keep-alive requests as well)
+type persistConn struct {
+	t        *Transport
+	cacheKey string // its connectMethod.String()
+	conn     net.Conn
+    closed   bool                // whether conn has been closed
+
+	reqch    chan requestAndChan // written by roundTrip; read by readLoop
+	writech  chan writeRequest   // written by roundTrip; read by writeLoop
+	closech  chan struct{}       // broadcast close when readLoop (TCP connection) closes
+    ...
+}
+</code></pre>
+<p>同时，persistConn包含两个相关协程 writeLoop()和readLoop()，分别用于向后端连接发送请求及读取响应。</p>
+<pre><code class="language-go">// bfe_http/transport.go
+
+func (pc *persistConn) writeLoop() {
+    defer close(pc.closech)
+    ...
+    for {
+        select {
+        case wr := &lt;-pc.writech:
+            ...
+            // Write the HTTP request and flush buffer
+            err := wr.req.Request.write(pc.bw, pc.isProxy, wr.req.extra)
+            if err == nil {
+                err = pc.bw.Flush()
+            }
+            if err != nil {
+                err = WriteRequestError{Err: err}
+                pc.markBroken()
+            }
+            // Return the write result
+            wr.ch &lt;- err
+        case &lt;-pc.closech:
+            return
+		}
+	}
+}
+
+func (pc *persistConn) readLoop() {
+    defer close(pc.closech)
+    ...
+    alive := true
+    for alive {
+        ...
+        rc := &lt;-pc.reqch
+        var resp *Response
+        if err == nil {
+            // Read the HTTP response
+            resp, err = ReadResponse(pc.br, rc.req)
+            ...
+        }
+        ...
+        if err != nil {
+            pc.close()
+        } else {
+            ...
+            // Wrapper the HTTP Body 
+            resp.Body = &amp;bodyEOFSignal{body: resp.Body}
+        }
+        ...
+        
+        // Return the read result
+        if err != nil {
+            err = ReadRespHeaderError{Err: err}
+        }
+        rc.ch &lt;- responseAndError{resp, err}
+        ...
+	}
+}
+</code></pre>
+<h3><a class="header" href="#向用户回复http响应" id="向用户回复http响应">向用户回复HTTP响应</a></h3>
+<p>反向代理通过ResponseWriter接口来构造及发送响应，包括以下接口：</p>
+<ul>
+<li>Header():  通过该方法设置响应头部</li>
+<li>WriteHeader(): 通过该方法设置响应状态码并发送响应头部</li>
+<li>Write(): 通过该方法发送响应主体数据</li>
+</ul>
+<pre><code class="language-go">// bfe_http/response_writer.go
+
+// A ResponseWriter interface is used by an HTTP handler to
+// construct an HTTP response.
+type ResponseWriter interface {
+	// Header returns the header map that will be sent by WriteHeader.
+	// Changing the header after a call to WriteHeader (or Write) has
+	// no effect.
+	Header() Header
+
+	// Write writes the data to the connection as part of an HTTP reply.
+	// If WriteHeader has not yet been called, Write calls   
+	// WriteHeader(http.StatusOK) before writing the data.  
+	// If the Header does not contain a Content-Type line, Write adds a  
+	// Content-Type set to the result of passing the initial 512 bytes of 
+	// written data to DetectContentType.
+	Write([]byte) (int, error)
+
+	// WriteHeader sends an HTTP response header with status code.
+	// If WriteHeader is not called explicitly, the first call to Write
+	// will trigger an implicit WriteHeader(http.StatusOK).
+	// Thus explicit calls to WriteHeader are mainly used to
+	// send error codes.
+	WriteHeader(int)
+}
+</code></pre>
+<p>在bfe_server/response.go文件中实现了ResponseWriter接口，用于发送HTTP/HTTPS响应。</p>
+<h2><a class="header" href="#http2协议" id="http2协议">HTTP2协议</a></h2>
+<h3><a class="header" href="#http2代码的组织" id="http2代码的组织">HTTP2代码的组织</a></h3>
+<p>在bfe_http2目录下包含如下代码：</p>
+<pre><code class="language-bash">$ls bfe/bfe_http2
+errors.go       flow_test.go   headermap.go  http2_test.go     server_test.go  transport.go   z_spec_test.go
+errors_test.go  frame.go       hpack         priority_test.go  state.go        write.go
+flow.go         frame_test.go  http2.go      server.go         testdata        writesched.go
+</code></pre>
+<p>各文件的功能说明如下：</p>
+<table><thead><tr><th>类别</th><th>文件名或子目录</th><th>说明</th></tr></thead><tbody>
+<tr><td>流处理层</td><td>server.go</td><td>HTTP2协议连接核心处理逻辑</td></tr>
+<tr><td></td><td>flow.go</td><td>HTTP2流量控制窗口</td></tr>
+<tr><td></td><td>writesched.go</td><td>HTTP2协议帧发送优先级队列</td></tr>
+<tr><td>帧处理层</td><td>frame.go</td><td>HTTP2协议帧定义及解析</td></tr>
+<tr><td></td><td>write.go</td><td>HTTP2协议帧发送方法</td></tr>
+<tr><td></td><td>hpack/</td><td>HTTP2协议头部压缩算法HPACK</td></tr>
+<tr><td>基础数据类型</td><td>headermap.go</td><td>HTTP2常见请求头部定义</td></tr>
+<tr><td></td><td>errors.go</td><td>HTTP2协议错误定义</td></tr>
+<tr><td></td><td>state.go</td><td>HTTP2协议内部状态指标</td></tr>
+<tr><td>辅助工具</td><td>transport.go</td><td>封装了HTTP2客户端；仅用于与后端实例通信</td></tr>
+</tbody></table>
+<h3><a class="header" href="#http2连接处理模块" id="http2连接处理模块">HTTP2连接处理模块</a></h3>
+<p>BFE在接收到一个HTTP2连接后，除了创建连接处理主协程, 还会创建多个子协程配合完成协议逻辑的处理。单个HTTP2协议连接处理模块结构如图所示。</p>
+<p><img src="http2_goroutines.png" alt="http2 goroutines" /></p>
+<p>模块内部结构自底向上划分为三个层级：</p>
+<p><strong>帧处理层</strong></p>
+<ul>
+<li>帧处理层实现HTTP2协议帧序列化、压缩及传输</li>
+<li>帧处理层包含两个独立收发协程，分别负责协议帧的接收与发送</li>
+<li>帧处理层与流处理层通过管道通信 (RecvChan/SendChan/WroteChan)</li>
+</ul>
+<p><strong>流处理层</strong></p>
+<ul>
+<li>流处理层实现协议核心逻辑，例如：流创建、流数据传输、流关闭、多路复用、流优先级、流量控制等</li>
+<li>流处理层为每流创建Request/ResponseWriter实例，并在独立协程中运行应用逻辑</li>
+</ul>
+<p><strong>接口层</strong></p>
+<ul>
+<li>为HTTP应用Handler提供标准Request/ResponseWriter实现, 屏蔽HTTP2协议数据传输细节</li>
+<li>HTTP应用Handler运行在Stream Goroutine协程中</li>
+<li>HTTP应用Handler通过Request实例获取HTTP 请求（读取自特定HTTP2流）</li>
+<li>HTTP应用Handler通过ResponseWriter实例发送HTTP响应（发往特定HTTP2流）</li>
+</ul>
+<h3><a class="header" href="#http2连接相关协程及关系" id="http2连接相关协程及关系">HTTP2连接相关协程及关系</a></h3>
+<p>每个HTTP2连接的各协程，基于CSP(Communicating Sequential Processes)模型协作，具体如下：</p>
+<p><strong>帧处理层的协程</strong></p>
+<p>每个HTTP2连接包含两个读写协程，分别负责读取或发送HTTP2协议帧，其中：</p>
+<ul>
+<li>帧接收协程(Frame Recv Goroutine) 从连接上读取HTTP2协议帧并放入帧接收队列</li>
+</ul>
+<pre><code class="language-go">// bfe_http2/server.go
+
+// readFrames is the loop that reads incoming frames.
+// It's run on its own goroutine.
+func (sc *serverConn) readFrames() {
+    gate := make(gate)
+    gateDone := gate.Done
+    for {
+        f, err := sc.framer.ReadFrame()
+        ...
+
+        // Send the frame to readFrameCh
+        select {
+        case sc.readFrameCh &lt;- readFrameResult{f, err, gateDone}:
+        case &lt;-sc.doneServing:
+            return
+        }
+        
+        // Waiting for the frame to be processed
+        select {
+            case &lt;-gate:
+            case &lt;-sc.doneServing:
+                return
+        }
+        ...
+    }
+}
+</code></pre>
+<ul>
+<li>帧发送协程(Frame Send Goroutine) 从帧发送队列获取帧，并写入连接，同时将写结果放入写结果队列WroteChan</li>
+</ul>
+<pre><code class="language-go">// bfe_http2/server.go
+
+// writeFrames runs in its own goroutine and writes frame
+// and then reports when it's done.
+func (sc *serverConn) writeFrames() {
+    var wm frameWriteMsg
+    var err error
+
+    for {
+        // get frame from sendChan
+        select {
+        case wm = &lt;-sc.writeFrameCh:
+        case &lt;-sc.doneServing:
+            return
+        }
+
+        // write frame
+        err = wm.write.writeFrame(sc)
+        log.Logger.Debug(&quot;http2: write Frame: %v, %v&quot;, wm, err)
+
+        // report write result
+        select {
+        case sc.wroteFrameCh &lt;- frameWriteResult{wm, err}:
+        case &lt;-sc.doneServing:
+            return
+        }
+    }
+}
+</code></pre>
+<p><strong>流处理层的协程</strong></p>
+<p>主协程与其它协程通过管道(golang Chan)进行通信, 例如:</p>
+<ul>
+<li>BodyReadChan：请求处理协程读取请求Body后，通过BodyReadChan向主协程发送读结果消息，主协议接收到消息执行流量控制操作并更新流量控制窗口</li>
+<li>WriteMsgChan: 请求处理协程发送响应后，通过WriteMsgChan向主协程发送写申请消息，主协议接收到消息后，转换为HTTP2数据帧并放入流发送队列。在合适到时机</li>
+<li>ReadChan/SendChan/WroteChan：从连接上获取或发送HTTP2协议帧</li>
+</ul>
+<pre><code class="language-go">// bfe_http2/server.go
+
+func (sc *serverConn) serve() {
+    ...
+  
+  	// Write HTTP2 Settings frame and read preface.
+    sc.writeFrame(frameWriteMsg{write: writeSettings{...}})
+    err := sc.readPreface()
+    ...
+
+    // Start readFrames/writeFrames goroutines.
+    go sc.readFrames()
+    go sc.writeFrames()
+
+    for {
+        select {
+        case wm := &lt;-sc.wantWriteFrameCh:
+            sc.writeFrame(wm)
+        case res := &lt;-sc.wroteFrameCh:
+            sc.wroteFrame(res)
+        case res := &lt;-sc.readFrameCh:
+            if !sc.processFrameFromReader(res) {
+            return
+            }
+            ...
+        case m := &lt;-sc.bodyReadCh:
+            sc.noteBodyRead(m.st, m.n)
+        case &lt;-sc.closeNotifyCh: // graceful shutdown
+            sc.goAway(ErrCodeNo)
+            sc.closeNotifyCh = nil
+        ...
+		}
+	}
+}
+</code></pre>
+<p><strong>接口层的协程</strong></p>
+<p>每个HTTP2连接为应用层封装了Request对象及ResponseWriter对象，并创建独立的请求处理协程（Stream Goroutine）处理请求并返回响应</p>
+<ul>
+<li>Stream Goroutine 从Request对象中获取请求</li>
+<li>Stream Goroutine 向ResponseWriter对象发送响应</li>
+</ul>
+<pre><code class="language-go">// bfe_http2/server.go
+
+func (sc *serverConn) processHeaders(f *MetaHeadersFrame) error {
+    sc.serveG.Check()
+    id := f.Header().StreamID
+    ...
+
+    // Create a new stream
+    st = &amp;stream{
+        sc:    sc,
+        id:    id,
+        state: stateOpen,
+        isw:   sc.srv.initialStreamRecvWindowSize(sc.rule),
+    }
+    ...
+
+    // Create the Reqeust and ResponseWriter
+    rw, req, err := sc.newWriterAndRequest(st, f)
+    if err != nil {
+        return err
+    }
+    st.body = req.Body.(*RequestBody).pipe // may be nil
+    st.declBodyBytes = req.ContentLength
+    ...
+
+    // Process the request in a new goroutine
+    handler := sc.handler.ServeHTTP
+    go sc.runHandler(rw, req, handler)
+    return nil
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../implementation/balancing/balancing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../develop/how_to_write_module/how_to_write_module.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../implementation/balancing/balancing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../develop/how_to_write_module/how_to_write_module.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

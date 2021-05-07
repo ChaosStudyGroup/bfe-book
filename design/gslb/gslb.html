@@ -1,0 +1,434 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第九章 BFE的内网流量调度机制 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html" class="active"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#bfe的内网流量调度机制" id="bfe的内网流量调度机制">BFE的内网流量调度机制</a></h1>
+<h2><a class="header" href="#背景" id="背景">背景</a></h2>
+<h3><a class="header" href="#全局流量调度解决方案" id="全局流量调度解决方案">全局流量调度解决方案</a></h3>
+<p><img src="./two_layer_scheduling.png" alt="two layer scheduling" /></p>
+<p>经过多年的建设，对于由IDC服务的业务流量，百度形成了两层的全局流量调度系统。包括：</p>
+<ul>
+<li>
+<p>GTC：外网流量调度</p>
+<p>基于DNS生效，将各省、运营商的用户流量引导到合适的网络入口。在调度计算中，GTC要考虑外网带宽（容量和使用情况）、BFE平台的转发资源（容量和使用情况）、用户到各带宽出口的接入质量（连通性、访问延迟）等因素。</p>
+</li>
+<li>
+<p>GSLB：内网流量调度</p>
+<p>基于BFE生效，将到达各BFE集群的流量，按照权重转发到位于各数据中心的子集群。</p>
+</li>
+</ul>
+<h3><a class="header" href="#外网流量调度" id="外网流量调度">外网流量调度</a></h3>
+<p><img src="./gtc.png" alt="gtc" /></p>
+<p>GTC负责在各网络入口间进行流量调度。GTC包括以下3个主要步骤：</p>
+<ul>
+<li>
+<p>实时监控</p>
+<p>由位于各地的监控节点，持续向各外网接入点发送探测信号，对各地和接入点之间的连通性和质量进行监控。如果发现异常，分布式的实时监控系统会在1分钟内将故障信号上报给调度系统。</p>
+</li>
+<li>
+<p>调度计算</p>
+<p>实时流量采集系统从路由器获取实时的带宽使用情况，从七层负载系统获取实时的每秒请求情况。调度系统根据实时流量数据和实时监控情况，配合全局网络模型，在1分钟内计算出新的调度方案。</p>
+</li>
+<li>
+<p>下发执行</p>
+<p>调度系统将调度方案下发给DNS和HTTPDNS执行。由于DNS缓存的因素，客户端的生效需要一定的时间。百度大部分域名的DNS TTL设置为300秒（即5分钟）。一般在下发后，要经过8-10十分钟才能完成90%以上用户的生效。</p>
+</li>
+</ul>
+<p>和前一代外网调度系统相比，GTC有以下两方面的提升：</p>
+<ul>
+<li>
+<p>加快了外网故障处理的速度</p>
+<p>通过“实时监控+自动调度计算”，从故障发生到启动DNS下发的时间压缩至2分钟以内。</p>
+</li>
+<li>
+<p>降低了配置维护的成本</p>
+<p>不需要针对域名维护复杂的预案。</p>
+</li>
+</ul>
+<p>业内很多类似的系统采用“预案”机制。例如，存在A和B两个备选的外网IP。预案会这么写：如果A出问题了，就把流量切换到B；如果B出问题了，就把流量切换到A。对于每个直接分配了IP地址的域名（也就是写为A记录的域名），都需要写这么一个预案。</p>
+<p>预案机制的最大问题就是维护成本很高。首先，维护成本和外网出口的数量成指数关系。2个出口的情况是非常简单的；如果有5个甚至10个出口，预案是非常不好写的，需要考虑各种可能性。另外，维护成本和域名的数量成线性关系。如果有几千个域名，这时如果要对带宽出口做一个调整（增加、或删除一个出口），所要付出的工作量是惊人的。</p>
+<p>外网流量调度主要适用于以下场景：</p>
+<ul>
+<li>
+<p>网络入口故障</p>
+<p>由于网络入口本地、或运营商网络的故障，导致用户无法访问网络入口</p>
+</li>
+<li>
+<p>网络入口由于攻击导致拥塞</p>
+<p>大规模的DDoS攻击可以达到数百G，甚至达到T级别，可以直接将网络入口的入向带宽打满</p>
+</li>
+<li>
+<p>网络接入系统故障</p>
+<p>如四层负载均衡系统或七层负载均衡系统的故障</p>
+</li>
+<li>
+<p>分省连通性故障</p>
+<p>虽然从总体看网络入口可以访问，但是从某个运营商的某个地区无法访问。这部分是由于用户所在的地区出现网络局部异常，也可能是由于服务所使用的IP在局部地区被误封禁。</p>
+</li>
+</ul>
+<h3><a class="header" href="#为什么需要内网流量调度" id="为什么需要内网流量调度">为什么需要内网流量调度</a></h3>
+<p>在多数据中心的场景下，如果没有内网流量调度机制，当一个数据中心内的服务发生故障时，只能通过改变域名对应的IP地址将流量调度到另外一个数据中心。如上文所说，在改变权威DNS的配置后，需要8-10分钟才能完成90%以上用户的生效。在完成切换之前，原来由故障IDC所服务的用户都无法使用服务。而且，运营商的Local DNS数量很大，可能会存在有故障或不遵循DNS TTL的Local DNS，从而导致对应的用户使用更长的时间完成切换，甚至一直都不切换。</p>
+<p><img src="./failover_dns.png" alt="failover with dns" /></p>
+<p>在引入内网流量调度机制后，可以通过修改BFE的配置将流量从故障的服务集群切走。在百度内部，配合自动的内网流量调度计算模块，在感知故障后，可以在30秒内完成流量的调度。和完全依赖外网流量调度的机制相比，故障止损时间有很大的降低，从8-10分钟降低至30秒内。而且，由于执行调度的BFE集群都在内部，内网流量调度的可控性也比基于DNS的外网流量调度要好的多。</p>
+<p><img src="./failover_gslb.png" alt="failover with gslb" /></p>
+<h2><a class="header" href="#内网流量调度" id="内网流量调度">内网流量调度</a></h2>
+<h3><a class="header" href="#基本工作机制" id="基本工作机制">基本工作机制</a></h3>
+<p><img src="./gslb.png" alt="gslb" /></p>
+<p>内网流量调度的工作机制如上图所示，其基本原理非常简单。在每个BFE集群，针对一个服务集群的每个后端子集群分配一组权重。在流量转发时，BFE按照这个权重来决定请求的目标子集群。</p>
+<p>另外，对每个服务集群，还包含一个虚拟的子集群，称为BLACKHOLE（黑洞）。在黑洞集群对应的权重不为0的情况下，分给黑洞子集群的流量会被BFE主动丢弃。在到达BFE流量超过服务集群总体容量的情况下，可以通过启用黑洞集群用来防止服务集群的整体过载。</p>
+<p>内网流量调度适用于和内部服务相关的场景，包括：</p>
+<ul>
+<li>
+<p>内部服务故障</p>
+<p>在某些场景下（如：服务的灰度发布），可能单个服务子集群出现故障，从而导致服务容量下降、甚至完全无法提供服务。这时候可以通过内网流量调度快速完成止损处理。</p>
+</li>
+<li>
+<p>内部服务压力不均</p>
+<p>包括以下两种可能的场景：</p>
+<ul>
+<li>
+<p>某个地区的用户流量突增，导致单个数据中心内的子集群服务压力超过容量</p>
+<p>这时可以将部分流量调度到其它子集群来服务</p>
+</li>
+<li>
+<p>由于外网故障处理，在外网将部分流量从一个网络入口调度到另外一个网络入口，从而导致相关的子集群压力超过容量</p>
+<p>这时也可以将部分流量调度到其它子集群来服务</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="./gslb_scenario_2.png" alt="gslb scenario 2" /></p>
+<p><img src="./gslb_scenario_3.png" alt="gslb scenario 3" /></p>
+<h3><a class="header" href="#内网自动流量调度" id="内网自动流量调度">内网自动流量调度</a></h3>
+<p>内网流量调度的权重可以手工设置。但实际上这个权重不应该是固定的，而应随着用户流量、服务集群的容量及机房间的连通性情况等因素的变化而调整。为此，在百度内实现了一个内网流量的调度器，用于对分流的权重比例进行计算。</p>
+<p><img src="./automatic_gslb.png" alt="automatic gslb" /></p>
+<p>内网流量调度的总体机制为：</p>
+<ul>
+<li>流量采集：基于BFE的访问日志，实时获取到达各BFE集群的各服务的流量</li>
+<li>权重计算：根据流量、各服务子集群的容量、各数据中心网络连通性/距离等因素，计算各BFE集群向各服务子集群的分流权重</li>
+<li>下发执行：由各BFE集群按照分流权重执行转发</li>
+</ul>
+<p>目前在BFE开源项目中，支持内网流量调度权重的手工设置，未包含内网自动流量调度的相关模块。</p>
+<h3><a class="header" href="#示例场景" id="示例场景">示例场景</a></h3>
+<ul>
+<li>
+<p>示例场景如下图所示，包含：</p>
+<ul>
+<li>
+<p>两个IDC：IDC_1和IDC_2</p>
+</li>
+<li>
+<p>两个BFE集群：BFE_1和BFE_2</p>
+</li>
+<li>
+<p>后端集群有两个子集群：SubCluster_1和SubCluster_2</p>
+</li>
+</ul>
+</li>
+<li>
+<p>可以针对BFE集群，设置子集群的分流比例，如：</p>
+<ul>
+<li>
+<p>BFE_1集群的分流配置为：{SubCluster_1: W11, SubCluster_2: W12, Blackhole: W1B}</p>
+</li>
+<li>
+<p>BFE_2集群的分流配置为：{SubCluster_1: W21, SubCluster_2: W22, Blackhole: W2B}</p>
+</li>
+</ul>
+</li>
+<li>
+<p>BFE实例根据上述配置做WRR调度（加权轮询），向子集群转发请求</p>
+<ul>
+<li>例如，当BFE_1的分流配置{W11, W12, W1B}为{45, 45, 10}时，BFE_1转发给SubCluster_1、SubCluster_2、Blackhole的流量比例依次为：45%、45%、10%。</li>
+</ul>
+</li>
+<li>
+<p>通过修改上述配置，可以将流量在不同的子集群之间切换，实现负载均衡、快速止损、过载保护等目的。</p>
+</li>
+</ul>
+<p><img src="./gslb_example.png" alt="gslb example" /></p>
+<h2><a class="header" href="#内网转发的其它机制" id="内网转发的其它机制">内网转发的其它机制</a></h2>
+<h3><a class="header" href="#失败重试机制" id="失败重试机制">失败重试机制</a></h3>
+<p><img src="./retry.png" alt="retry" /></p>
+<p>BFE在转发时，支持以下两种失败重试机制：</p>
+<ul>
+<li>同子集群重试
+<ul>
+<li>在一次转发失败后，选择原目标子集群内的其它服务实例进行重试。</li>
+<li>在同子集群内重试的最大次数，可以通过配置集群的参数“<strong>同子集群重试次数</strong>”来控制。</li>
+</ul>
+</li>
+<li>跨子集群重试
+<ul>
+<li>在转发失败后，在原目标子集群之外，使用另外一个子集群进行重试。</li>
+<li>跨子集群重试的最大次数，可以通过配置集群的参数“<strong>跨子集群重试次数</strong>”来控制。</li>
+</ul>
+</li>
+</ul>
+<p>在转发失败后，BFE会首先尝试同子集群重试（如果同子集群重试次数大于1），然后再尝试跨子集群重试（如果跨子集群重试次数大于0）。</p>
+<p>启用跨子集群重试功能要小心，在某些场景下这个功能可能将过量的流量转移到其它健康的集群，从而导致这些集群的压力过大、甚至被压垮。和上面“内网流量调度”中按照权重将流量转发到各子集群的机制不同，跨子集群重试所引发的流量压力是有一定不可控性的。</p>
+<p>BFE并不是在所有请求失败的情况下都会进行重试。如果BFE感知到下游实例已经读取了请求（即使没有完整的读取），也不会再重试了。在这种情况下，BFE无法确认下游实例是否已经处理了请求，如果再次发送可能会导致状态的错误，所以采取了比较保守的策略。</p>
+<h3><a class="header" href="#连接池" id="连接池">连接池</a></h3>
+<p>BFE和下游实例的连接支持两种方式：</p>
+<ul>
+<li>短连接方式：每次BFE向下游实例转发请求，均需要建立新的TCP连接</li>
+<li>连接池方式：
+<ul>
+<li>BFE为每个下游实例维护一个连接池。当BFE需要向某个下游实例转发请求时：
+<ul>
+<li>如果连接池中有idle连接，则复用这个连接</li>
+<li>如果连接池中没有idle连接，则会建立一个新的TCP连接</li>
+</ul>
+</li>
+<li>当BFE处理完一个请求时
+<ul>
+<li>如果连接池中的idle连接数量小于连接池的大小，则将当前使用的连接放入连接池</li>
+<li>如果连接池中的idle连接数量大于等于连接池的大小，则关闭当前使用的连接</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>使用连接池的方式，可以避免新建TCP连接所导致的延迟，从而降低总的转发延迟。由于BFE需要对于每个下游实例都保持长连接，在某些情况下（如，BFE的实例数较大）可能导致下游实例的并发连接数较大。在使用连接池和设置连接池的参数时，需要结合以上因素综合考虑。</p>
+<h3><a class="header" href="#会话保持" id="会话保持">会话保持</a></h3>
+<p>BFE向下游转发请求时，支持将相同来源请求，转发至固定的业务后端（某个子集群或某个实例），这个功能被称为“会话保持”。</p>
+<p>在执行会话保持时，BFE可以基于以下请求来源标识：</p>
+<ul>
+<li>请求来源IP</li>
+<li>请求特定头部，例如请求Cookie等</li>
+</ul>
+<p>BFE支持以下两种会话保持级别：</p>
+<ul>
+<li>子集群级别：相同来源的请求，被转发至固定的业务子集群（注：子集群中的任意实例）</li>
+<li>实例级别：相同来源的请求，被转发至固定的业务实例</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../design/route/route.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../design/module/module.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../design/route/route.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../design/module/module.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

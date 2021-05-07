@@ -1,0 +1,428 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第二十二章 配置HTTPS服务 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html" class="active"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#配置https服务" id="配置https服务">配置HTTPS服务</a></h1>
+<p>BFE可以支持TLS卸载（TLS offloading），将收到的加密的HTTPS流量进行解密后，再转发给后端服务。</p>
+<p><img src="./img/https_1.png" alt="https" /></p>
+<h2><a class="header" href="#https基础配置" id="https基础配置">HTTPS基础配置</a></h2>
+<p>HTTPS配置包括加密套件、证书文件的配置、TLS协议相关参数的配置。使用HTTPS需要配置相应的证书文件，请提前准备好证书文件。</p>
+<h3><a class="header" href="#配置https端口" id="配置https端口">配置HTTPS端口</a></h3>
+<p>在bfe.conf中可以配置HTTPS的端口</p>
+<pre><code class="language-ini">[Server] 
+... 
+
+# listen port for https request
+HttpsPort = 8443
+</code></pre>
+<h3><a class="header" href="#配置加密套件" id="配置加密套件">配置加密套件</a></h3>
+<p>bfe.conf中包含了如下的加密套件，用户可以根据需要进行修改。这部分定义了TLS握手中支持的加密套件。</p>
+<pre><code class="language-ini">CipherSuites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256|TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+CipherSuites=TLS_ECDHE_RSA_WITH_RC4_128_SHA
+CipherSuites=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+CipherSuites=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+CipherSuites=TLS_RSA_WITH_RC4_128_SHA
+CipherSuites=TLS_RSA_WITH_AES_128_CBC_SHA
+CipherSuites=TLS_RSA_WITH_AES_256_CBC_SHA
+</code></pre>
+<h3><a class="header" href="#配置服务端证书" id="配置服务端证书">配置服务端证书</a></h3>
+<p>bfe.conf中也包含了服务端证书的配置文件的的路径，可以直接使用缺省配置。</p>
+<pre><code class="language-ini">ServerCertConf = tls_conf/server_cert_conf.data
+</code></pre>
+<p>打开服务端证书配置文件tls_conf/server_cert_conf.data，可以看到如下证书信息：</p>
+<pre><code class="language-json">{
+    &quot;Version&quot;: &quot;1&quot;,
+    &quot;Config&quot;: {
+        &quot;Default&quot;: &quot;example.org.cert&quot;,
+        &quot;CertConf&quot;: {
+            &quot;example.org.cert&quot;: {
+                &quot;ServerCertFile&quot;: &quot;tls_conf/certs/server.crt&quot;,
+                &quot;ServerKeyFile&quot; : &quot;tls_conf/certs/server.key&quot;
+            }
+        }
+    }
+}
+</code></pre>
+<p>该文件包含了服务端证书的信息，其中&quot;Default&quot;字段指示了服务端的缺省证书。&quot;CertConf&quot;中包含了证书文件的具体内容。上面的例子中，配置了一个名为&quot;example.org.cert&quot;的证书。
+&quot;CertConf&quot;中可以包含多个证书，分别用不同的名字进行标识。每个证书的定义都包含&quot;ServerCertFile&quot;和&quot;ServerKeyFile&quot;两个字段，分别指示服务端证书文件和对应的私钥文件。</p>
+<p>证书名字，比如上例中的&quot;example.org.cert&quot;，将在后续的tls_rule_conf.data配置中被使用。</p>
+<h3><a class="header" href="#配置tls规则" id="配置tls规则">配置TLS规则</a></h3>
+<p>准备好证书之后，需要设置TLS相关的规则，比如如何选择证书。</p>
+<p>bfe.conf包含了TLS规则文件的路径：</p>
+<pre><code class="language-ini">TlsRuleConf = tls_conf/tls_rule_conf.data
+</code></pre>
+<p>下面示例是我们为租户&quot;example_product&quot;配置的规则。</p>
+<pre><code class="language-json">{
+    &quot;Version&quot;: &quot;1&quot;,
+    &quot;DefaultNextProtos&quot;: [&quot;http/1.1&quot;],
+    &quot;Config&quot;: {
+        &quot;example_product&quot;: {
+            &quot;SniConf&quot;: &quot;example.org&quot;,
+            &quot;CertName&quot;: &quot;example.org.cert&quot;,
+            &quot;NextProtos&quot;: [
+                &quot;http/1.1&quot;
+            ],
+            &quot;Grade&quot;: &quot;C&quot;
+        }
+    }
+}
+</code></pre>
+<p>其中&quot;SniConf&quot;指示了使用SNI的域名。&quot;NextProtos&quot;标识了ALPN协商中使用的协议。安全等级&quot;Grade&quot;定义了TLS协商中服务端可以使用的加密套件的等级，具体描述见后续章节。</p>
+<p>上述配置后，重启BFE让配置生效。就可以通过HTTPS访问配置的HTTPS端口。</p>
+<h2><a class="header" href="#配置tls会话重用" id="配置tls会话重用">配置TLS会话重用</a></h2>
+<p>BFE支持使用两种TLS会话重用的方式：Session Cache和Session Ticket。</p>
+<h3><a class="header" href="#配置session-cache" id="配置session-cache">配置Session Cache</a></h3>
+<p>BFE使用Redis进行集中的TLS Session信息存储。多个BFE实例可以连接共享的Redis服务。连接如下图：</p>
+<p><img src="./img/https_session_cache.png" alt="https session cache" /></p>
+<p>为开启session cache，在bfe.conf中设置SessionCacheDisabled为false。</p>
+<pre><code class="language-ini">[SessionCache]
+# disable tls session cache or not
+SessionCacheDisabled = false
+
+# tcp address of redis server
+Servers = &quot;example.redis.cluster&quot;
+
+# prefix for cache key
+KeyPrefix = &quot;bfe&quot;
+
+# connection params (ms)
+ConnectTimeout = 50
+ReadTimeout = 50
+WriteTimeout = 50
+
+# max idle connections in connection pool
+MaxIdle = 20
+
+# expire time for tls session state (second)
+SessionExpire = 3600
+
+</code></pre>
+<p>上述配置中的&quot;Servers&quot;字段，指明了连接的redis服务器名字。该名字的具体地址，在
+conf/server_data_conf/name_conf.data中指定：</p>
+<pre><code class="language-json">{
+    &quot;Version&quot;: &quot;1&quot;,
+    &quot;Config&quot;: {
+        &quot;example.redis.cluster&quot;: [
+            {
+                &quot;Host&quot;: &quot;192.168.3.1&quot;,
+                &quot;Port&quot;: 6379,
+                &quot;Weight&quot;: 10
+            }
+        ]
+    }
+}
+</code></pre>
+<h3><a class="header" href="#配置session-ticket" id="配置session-ticket">配置Session Ticket</a></h3>
+<p>如需支持TLS session ticket，在bfe.conf文件中，设置SessionTicketsDisabled 为 false：</p>
+<pre><code>[SessionTicket]
+# disable tls session ticket or not
+SessionTicketsDisabled = false
+# session ticket key
+SessionTicketKeyFile = tls_conf/session_ticket_key.data
+</code></pre>
+<p>在SessionTicketKeyFile指向的文件中，用户可以配置加密ticket的密钥，格式为包含字符a-z/0-9，长度为48的字符串。</p>
+<p>开启上述配置后，如client支持session ticket，TLS握手中就可实现基于session ticket的会话重用。</p>
+<h2><a class="header" href="#配置双向认证" id="配置双向认证">配置双向认证</a></h2>
+<p>在一些场景，我们需要配置双向TLS，对客户端进行认证。BFE上可以支持配置客户端证书。</p>
+<p>在bfe.conf中可以配置clientCA证书的目录：</p>
+<pre><code class="language-ini">
+# client ca certificates base directory
+# Note: filename suffix for ca certificate file should be &quot;.crt&quot;, eg. example_ca_bundle.crt
+ClientCABaseDir = tls_conf/client_ca
+
+# client certificate crl base directory
+# Note: filename suffix for crl file should be &quot;.crl&quot;, eg. example_ca_bundle.crl
+ClientCRLBaseDir = tls_conf/client_crl
+
+</code></pre>
+<p>在conf/tls_conf/client_ca中放置客户端的CA证书，证书名需以.crt结尾，如下：</p>
+<pre><code># ls conf/tls_conf/client_ca
+example_ca.crt
+</code></pre>
+<p>修改conf/tls_conf/tls_rule_conf.data中租户&quot;example_product&quot;的配置，将
+&quot;ClientAuth&quot;设置为true，&quot;ClientCAName&quot;为上述证书文件的名字，本例中为&quot;example_ca&quot;。</p>
+<pre><code class="language-json">{
+    ...
+    &quot;Config&quot;: {
+        &quot;example_product&quot;: {
+            ...
+            &quot;ClientAuth&quot;: true,
+            &quot;ClientCAName&quot;: &quot;example_ca&quot;
+        }
+    }
+}
+</code></pre>
+<p>注意，当前实现中，BFE验证客户端证书必须在&quot;Extended Key Usage&quot;中开启&quot;clientAuth&quot;。可以查看证书信息进行确认。如下，查看client.crt的具体信息：</p>
+<pre><code># openssl x509 -in client.crt -text -noout
+
+Certificate:
+    ...
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Key Usage: 
+                Digital Signature, Non Repudiation, Key Encipherment
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication, Code Signing, E-mail Protection
+    ...
+</code></pre>
+<p>配置完成后，客户端就可使用上述证书client.crt和相应的私钥访问HTTPS的服务端口了。</p>
+<h2><a class="header" href="#安全等级说明" id="安全等级说明">安全等级说明</a></h2>
+<p>TLS协议配置文件中包含配置项“Grade”，该值指定了使用的加密套件的安全级别。</p>
+<p>BFE支持多种安全等级（A+/A/B/C）。各安全等级差异在于支持的协议版本及加密套件。A+等级安全性最高、连通性最低；C等级安全性最低、连通性最高。</p>
+<ul>
+<li>安全等级A+</li>
+</ul>
+<table><thead><tr><th>支持协议</th><th>支持加密套件</th></tr></thead><tbody>
+<tr><td>TLS1.2</td><td>TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256<br>TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_OLD_SHA256<br>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256<br>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA<br>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA<br>TLS_RSA_WITH_AES_128_CBC_SHA<br>TLS_RSA_WITH_AES_256_CBC_SHA</td></tr>
+</tbody></table>
+<ul>
+<li>安全等级A</li>
+</ul>
+<table><thead><tr><th>支持协议</th><th>支持加密套件</th></tr></thead><tbody>
+<tr><td>TLS1.2<br>TLS1.1<br>TLS1.0</td><td>TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256<br>TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_OLD_SHA256<br>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256<br>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA<br>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA<br>TLS_RSA_WITH_AES_128_CBC_SHA<br>TLS_RSA_WITH_AES_256_CBC_SHA</td></tr>
+</tbody></table>
+<ul>
+<li>安全等级B</li>
+</ul>
+<table><thead><tr><th>支持协议</th><th>支持加密套件</th></tr></thead><tbody>
+<tr><td>TLS1.2<br>TLS1.1<br>TLS1.0</td><td>TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256<br>TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_OLD_SHA256<br>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256<br>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA<br>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA<br>TLS_RSA_WITH_AES_128_CBC_SHA<br>TLS_RSA_WITH_AES_256_CBC_SHA</td></tr>
+<tr><td>SSLv3</td><td>TLS_ECDHE_RSA_WITH_RC4_128_SHA<br>TLS_RSA_WITH_RC4_128_SHA</td></tr>
+</tbody></table>
+<ul>
+<li>安全等级C</li>
+</ul>
+<table><thead><tr><th>支持协议</th><th>支持加密套件</th></tr></thead><tbody>
+<tr><td>TLS1.2<br>TLS1.1<br>TLS1.0</td><td>TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256<br>TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_OLD_SHA256<br>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256<br>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA<br>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA<br>TLS_RSA_WITH_AES_128_CBC_SHA<br>TLS_RSA_WITH_AES_256_CBC_SHA<br>TLS_ECDHE_RSA_WITH_RC4_128_SHA<br>TLS_RSA_WITH_RC4_128_SHA</td></tr>
+<tr><td>SSLv3</td><td>TLS_ECDHE_RSA_WITH_RC4_128_SHA<br>TLS_RSA_WITH_RC4_128_SHA</td></tr>
+</tbody></table>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../operation/configuration/proxy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../operation/configuration/rewrite.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../operation/configuration/proxy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../operation/configuration/rewrite.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

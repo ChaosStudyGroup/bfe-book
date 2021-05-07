@@ -1,0 +1,352 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第十七章 HTTPS优化机制 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html" class="active"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#https的优化" id="https的优化">HTTPS的优化</a></h1>
+<h2><a class="header" href="#https化背景及必要性" id="https化背景及必要性">HTTPS化背景及必要性</a></h2>
+<p>伴随着互联网的飞速发展和用户规模的迅猛增长，互联网长期面临着严峻的安全威胁和数据隐私风险。围绕HTTP流量的黑产在非法牟利的同时，对互联网用户体验及安全隐私带来严重影响，也给互联网服务提供商的声誉和利益带来巨大损失。使用HTTP协议面临的典型问题包括：</p>
+<ul>
+<li><strong>内容篡改</strong>：用户访问的页面内容被恶意篡改，例如搜索结果页链接被恶意修改、下载页面安装包被恶意替换、浏览页面植入大量广告等</li>
+<li><strong>隐私泄露</strong>：用户网络活动行为被嗅探，个人数据被泄漏及利用，受到垃圾广告或诈骗电话干扰等</li>
+<li><strong>流量劫持</strong>：用户访问被劫持到钓鱼网站，用户账号信息在诱导下被窃取等</li>
+</ul>
+<p>HTTPS相比HTTP协议在底层使用了TLS协议传输，提供完整性、私密性、身份认证机制，可以保障互联网用户流量的接入安全。国内外诸多大型互联网公司已经全面支持HTTPS。浏览器厂商、移动应用商店等生态厂商也在加速推进HTTPS。例如：</p>
+<ul>
+<li>Google Chrome浏览器在HTTP域名输入框前增加“不安全”的提示。Google正推动 Chrome 浏览器将 HTTPS作为默认设置（而非 HTTP）。用户直接输入域名后，Chrome 将首先尝试使用 HTTPS协议访问。</li>
+<li>Apple iOS10 ATS (App Transport Security) 策略强制要求所以在iOS 应用商店上架的应用都必须支持HTTPS。</li>
+</ul>
+<h2><a class="header" href="#https化的挑战" id="https化的挑战">HTTPS化的挑战</a></h2>
+<p>对于一个中大型的网站而言，全面HTTPS化除了需完成网站页面HTTPS改造，还面临以下重要问题：</p>
+<ul>
+<li>
+<p><strong>访问速度问题</strong>：HTTPS相比HTTP一般会额外引入1～2个RTT。当然，这并不包括一些情况下用户首先访问HTTP再跳转到HTTPS的延迟，以及HTTPS证书状态检查所引入的延迟。在移动网络环境下往返延迟往往更大，还会带来更明显的影响。</p>
+</li>
+<li>
+<p><strong>性能及成本问题</strong>：协议握手及数据加密传输引入的密码学计算，带来不可忽视的性能开销。尤其是TLS握手过程中的非对称计算，是性能开销的主要来源。以Nginx为例，在短连接及完全握手情况下，HTTP相比HTTPS吞吐高达10倍。</p>
+</li>
+<li>
+<p><strong>安全性问题</strong>：正确的部署及保障HTTPS安全性，需掌握一定的安全领域知识及最佳实践。运维人员往往容易在HTTPS部署时留下安全隐患，无法满足业务运营所要求的安全合规标准。</p>
+</li>
+<li>
+<p><strong>可用性问题</strong>：HTTPS生态更为复杂，第三方CA成为网站稳定性的一个新依赖。同时，由于客户端的多样性，端协议实现的兼容性及缺陷，也可能导致服务访问异常。</p>
+</li>
+</ul>
+<h2><a class="header" href="#https中的优化机制" id="https中的优化机制">HTTPS中的优化机制</a></h2>
+<p>常见的HTTPS优化手段简要说明如下。</p>
+<h3><a class="header" href="#访问延迟优化" id="访问延迟优化">访问延迟优化</a></h3>
+<p>HTTPS引入总延迟大小取决于往返延迟大小和往返交互次数。从用户访问流程角度看，HTTPS交互延迟既包括建立安全会话的延迟，还包括从HTTP向HTTPS跳转延迟及HTTPS证书状态检查延迟。相应的，我们可以通过如下多种方法来优化访问延迟。</p>
+<table><thead><tr><th>优化方法</th><th>具体机制</th></tr></thead><tbody>
+<tr><td>降低往返延迟</td><td>通过在边缘节点完成TLS握手</td></tr>
+<tr><td>减少交互次数</td><td>通过TLS会话复用握手来减少交互次数，其中TLS 1.2 需要2个RTT(含TCP握手)，而TLS 1.3只需1个RTT(含TCP握手)，使用QUIC只需0个RTT。此外，可以通过HSTS机制或重定向缓存机制，优化从HTTP再跳转到HTTPS的延迟；通过OCSP Stapling机制优化证书状态检查延迟。</td></tr>
+<tr><td>隐藏交互延迟</td><td>通过启发式预建立连接，来屏蔽建连延迟的影响</td></tr>
+</tbody></table>
+<h3><a class="header" href="#非对称计算性能优化" id="非对称计算性能优化">非对称计算性能优化</a></h3>
+<p>HTTPS服务端在通信过程中，非对称密码学计算是性能开销的主要来源。非对称密码学算法安全长度的进一步提升还会加剧这个问题。例如自2010年起主流CA已停止签发不安全的 RSA 1024长度证书，并使用RSA 2048长度证书。针对非对称计算性能的优化有如下多种方法。</p>
+<table><thead><tr><th>优化方法</th><th>具体机制</th></tr></thead><tbody>
+<tr><td>减少非对称计算次数</td><td>提升连接复用率、会话复用率来减少TLS完全握手及引入的非对称计算次数</td></tr>
+<tr><td>优化非对称计算性能</td><td>通过硬件加速卡或支持密码学计算指令的CPU，提升非对称算法计算性能</td></tr>
+<tr><td>优先使用高性能算法</td><td>自适应优先使用ECC证书而不是RSA证书（不具备硬件加速的场景）</td></tr>
+</tbody></table>
+<h3><a class="header" href="#安全性评估及巡检" id="安全性评估及巡检">安全性评估及巡检</a></h3>
+<p>HTTPS安全性风险来源于CA基础设施、协议及算法漏洞、HTTPS部署配置、HTTP应用等。有一些公开服务支持自动评估HTTPS站点等安全性，并提示潜在的安全漏洞。</p>
+<p>此外，HTTPS服务提供商需要制定并应用HTTPS部署最佳实践及规范。例如SSLLabs编写的<a href="https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices">《SSL/TLS部署最佳实践》</a>，NIST发布的<a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1800-16.pdf">《保护Web事务的安全：TLS服务端证书管理》</a>等。</p>
+<p>同时，需建立关于HTTPS的监控机制。包括HTTPS证书监控、HTTPS混合内容监控、安全Cookie监控、HTTPS安全漏洞扫描等。</p>
+<h3><a class="header" href="#稳定性风险应对" id="稳定性风险应对">稳定性风险应对</a></h3>
+<p>通过灰度机制及冗余机制，来支撑业务线构建变更风险小、止损速度快、更稳定可靠的HTTPS服务。相关机制（控制HTTP向HTTPS的灰度跳转、HTTPS证书灰度更新等）具体说明详见下文。</p>
+<h2><a class="header" href="#bfe相关增强机制" id="bfe相关增强机制">BFE相关增强机制</a></h2>
+<p>为更好适应大型站点的需求，BFE相比常见开源方案进行了一些针对性改进，下文针对一些差异化的机制简要介绍如下。</p>
+<h3><a class="header" href="#分布式tls会话缓存" id="分布式tls会话缓存">分布式TLS会话缓存</a></h3>
+<p>BFE支持将TLS会话状态，存储在分布式Cache集群中。客户端与BFE集群中任一实例连接后，可基于Session ID完成会话复用握手，从而提升在集群部署模式下的TLS会话复用率。</p>
+<h3><a class="header" href="#tls会话状态格式" id="tls会话状态格式">TLS会话状态格式</a></h3>
+<p>在上文分布式TLS会话缓存中，存储的会话状态可以采用两种格式：原始格式及OpenSSL格式。如果是BFE新用户，可优先使用原始格式，这种格式更紧凑可降低分布式缓存的存储开销；如果是需要替换基于OpenSSL反向代理，可以配置OpenSSL格式，这样两种程序可兼容读取对方保存的会话状态，实现平滑迁移而不影响会话复用握手。</p>
+<h3><a class="header" href="#session-ticket密钥更新" id="session-ticket密钥更新">Session Ticket密钥更新</a></h3>
+<p>如果Session Ticket key泄漏将无法保障前向安全性。基于Session Ticket会话复用的连接，如果恶意攻击者预先录制流量，后续使用泄漏的Session Ticket key，可以成功计算出会话密钥并解密还原出明文信息。</p>
+<p>为了避免以上问题，应定期更新Session Ticket key文件。BFE支持热加载并更新Session Ticket key，同时无需进程热重启导致长连接中断。</p>
+<h3><a class="header" href="#oscp-staple的自适应容错" id="oscp-staple的自适应容错">OSCP Staple的自适应容错</a></h3>
+<p>OCSP Staple文件具有一定的有效期。如果握手过程中服务端意外发送了一个过期的OCSP Staple文件，可能导致握手失败。在一个大规模的分布式集群环境中，由于流程或机制原因导致OCSP Staple未及时成功更新或遗漏更新，这样的情况并不罕见。</p>
+<p>BFE支持自适应处理即将过期的OCSP Staple文件。在OCSP Staple即将过期时，BFE将自动降级并停止发送OCSP Staple文件，避免潜在的握手失败影响。</p>
+<h3><a class="header" href="#非对称密码学计算优化" id="非对称密码学计算优化">非对称密码学计算优化</a></h3>
+<p>非对称密钥算法在TLS握手过程中，一般用于身份认证及密钥交换。目前主流的非对称算法包含RSA/ECC。由于CA根证书兼容性原因，RSA类型证书依然是目前最广泛使用的证书。目前RSA算法建议的安全长度是2048位，相比等价强度的256位ECC算法而言，RSA算法的性能开销要远大于ECC。</p>
+<p>如果用户流量全部来自自有移动端，或握手报文满足特定特征，可通过选择ECC类型证书及私钥，来减少非对称密码学计算引入性能开销。</p>
+<p>如果用户流量大量来自低端客户端，则需要使用RSA类型证书及私钥以保证兼容性。通过使用支持RSA算法的硬件加速卡，可以大幅降低RSA计算引入性能开销。</p>
+<p>基于硬件加速的方案一般有两种类型：</p>
+<ul>
+<li><strong>同机模式</strong>：同机部署支持RSA加速的CPU或部署RSA硬件加速扩展卡</li>
+<li><strong>远程模式</strong>：远程访问具备RSA硬件加速条件的非对称计算服务</li>
+</ul>
+<p>远程模式相比同机模式的优势是：</p>
+<ul>
+<li>
+<p>不必全面升级现有的转发机器，降级升级周期及成本</p>
+</li>
+<li>
+<p>可以弹性适配BFE转发机器的计算需求，避免硬件加速卡资源浪费（注：基于硬件加速卡）</p>
+</li>
+<li>
+<p>可以为密钥提供集中式、基于硬件的安全保护机制（注：基于CPU特殊指令）</p>
+</li>
+</ul>
+<p>由于远程硬件加速服务可用性难以达到100%，为避免引入依赖远程硬件加速服务降低BFE整体可用性，在访问远程硬件加速卡出现偶发异常时，通过自动降级使用本地计算来消除影响。</p>
+<h3><a class="header" href="#多证书选择" id="多证书选择">多证书选择</a></h3>
+<p>在多租户的环境中，需要为不同的租户使用不同的证书。同一个租户由于业务原因（例如品牌考虑），也可能使用了多个证书。</p>
+<p>在实际部署中，BFE为不同租户提供了不同的VIP，可以为不同的VIP配置不同的证书。</p>
+<h3><a class="header" href="#内存安全问题" id="内存安全问题">内存安全问题</a></h3>
+<p>Google工程师统计发现现在Chrome代码库中所有严重的安全漏洞，70%都是内存管理的安全漏洞。微软工程师也宣称，微软过去12年的安全更新大概70%都是在解决内存安全漏洞。OpenSSL著名的<a href="https://heartbleed.com/">心脏出血漏洞(Heatbleed Bug)</a>被称为互联网史上最严重的安全漏洞之一，由于内存信息越界访问导致内存中敏感信息泄漏，波及了大量常用网站和服务。</p>
+<p>受益于Go语言内置内存安全特性，BFE可以避免常见C语言缓冲区溢出内存问题所引发的安全问题。</p>
+<h3><a class="header" href="#tls安全等级" id="tls安全等级">TLS安全等级</a></h3>
+<p>正确配置服务的各项TLS/SSL参数（协议版本、加密套件）要求运维人员对TLS/SSL安全有较深入的理解。为降低管理员误配置引入部署安全风险，BFE提供了四种TLS安全等级，具体如下。不同安全等级下BFE所支持的TLS协议版本及加密套件是不同的。</p>
+<table><thead><tr><th>安全等级</th><th>说明</th></tr></thead><tbody>
+<tr><td>等级A+</td><td>安全性最高、兼容性最低</td></tr>
+<tr><td>等级A</td><td>安全性较高、兼容性一般</td></tr>
+<tr><td>等级B</td><td>安全性一般、兼容性较高</td></tr>
+<tr><td>等级C</td><td>安全性最低、兼容性最高</td></tr>
+</tbody></table>
+<p>相应的，不同安全等级具有不同的安全性及兼容性，适用不同的业务场景。例如，安全等级A+仅支持TLS 1.2及以上版本和安全强度更高的加密套件。等级A+适用于要求PCI DSS级别安全合规的业务场景，例如金融支付业务。</p>
+<p>各安全等级的协议和加密套件的详细定义，见“<a href="../../operation/configuration/https.html">配置HTTPS服务</a>”中的说明。</p>
+<h3><a class="header" href="#密钥安全存储" id="密钥安全存储">密钥安全存储</a></h3>
+<p>使用硬件方案（HSM: Hardware Security Module）在硬件内部创建及保存私钥是最安全的方案。这种方案中涉及私钥相关的计算操作，由HSM硬件直接完成。私钥永远无法脱离HSM，也无法通过物理方式来提取。</p>
+<p>如果不具备使用硬件的场景下，可以对密钥进行加密保护并定期更换密钥，在一定程度控制密钥泄漏的风险及影响。目前，CA厂商开始缩短签发证书的有效期，不再签发2年及以上有效期证书。</p>
+<h3><a class="header" href="#tlsssl-ja3指纹" id="tlsssl-ja3指纹">TLS/SSL JA3指纹</a></h3>
+<p>BFE支持根据ClientHello消息中特征，计算TLS/SSL客户端的指纹。BFE采用了JA3算法，可简单高效的识别客户端程序，并与业务层联动进行反爬取或反作弊。</p>
+<p>在BFE中可以通过mod_header模块，在请求头部中携带JA3指纹传递给下游。具体用法参见开源BFE用户手册mod_header模块相关说明。</p>
+<h3><a class="header" href="#tlsssl可见性" id="tlsssl可见性">TLS/SSL可见性</a></h3>
+<p>HTTPS化对旁路式流量攻击检测以及复杂网络问题诊断带来了挑战。旁路式攻击检测系统由于无法处理密文流量将无法有效工作。另外，研发运维人员有时依赖于对密文形式的网络抓包文件进行解密及分析。BFE可与旁路式攻击检测系统配合，通过安全共享会话密钥支撑其实现传输层、安全层、应用层等攻击特征分析。同时，在BFE还可选择性将TLS会话主密钥写入到key.log日志文件中，并供wireshark软件分析加密网络报文。</p>
+<h3><a class="header" href="#http灰度跳转https" id="http灰度跳转https">HTTP灰度跳转HTTPS</a></h3>
+<p>由于HTTPS改造的复杂性，从HTTP迁移到HTTPS需要一套灵活的灰度机制来控制跳转。BFE支持实现细粒度的策略，例如区分域名、客户端、用户地域等，设置灰度跳转策略。</p>
+<h3><a class="header" href="#证书灰度更新" id="证书灰度更新">证书灰度更新</a></h3>
+<p>证书变更是一个高风险的操作。证书链配置错误、证书链中级CA证书发送变化、证书中缺失必要扩展、证书格式不规范等，都可能触发兼容性问题，并导致证书更新后部分用户访问异常。可靠控制变更风险、快速发现潜在问题，对普通运维人员而言不可或缺。</p>
+<p>BFE支持按用户抽样灰度更新证书，并支持实时统计新旧证书握手成功率变化，可以快速拦截在小流量阶段，难以通过总流量波动发现的异常。</p>
+<h3><a class="header" href="#多ca互备证书" id="多ca互备证书">多CA互备证书</a></h3>
+<p>CA成为HTTPS网站稳定性风险的一个新的来源。CA厂商的选型是一个关键的问题。除了考量CA厂商的证书成本，还需考量CA厂商的根证书兼容性、OCSP服务稳定性、安全合规历史记录、是否是核心主营业务等。</p>
+<p>随着HTTPS的大规模普及推广，近年来主流CA厂商引发的HTTPS重大故障并不罕见。例如，2016年GlobalSign由于OCSP服务故障影响了多个知名的大型网站。2018年全球最大的CA厂商Verisign由于安全违规，Chrome/Firefox/Safari等浏览器开始停止信任Symantec签发证书。</p>
+<p>HTTPS站点在有条件情况下可以通过签发多个CA厂商的证书实现冗余互备。当某个CA厂商证书访问连通率异常时，可以快速切换迁移至其它CA证书止损。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../design/configuration/configuration.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../design/info_pass_through/pass_through.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../design/configuration/configuration.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../design/info_pass_through/pass_through.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

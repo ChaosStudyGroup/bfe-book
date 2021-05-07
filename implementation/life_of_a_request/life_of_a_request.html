@@ -1,0 +1,437 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>第二十九章 请求处理流程及响应 - 深入理解BFE</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../background/what-is-bfe.html"><strong aria-hidden="true">1.</strong> 第一章 BFE简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/introduction/introduction.html"><strong aria-hidden="true">2.</strong> 第二章 网络前端接入技术简介</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/trend/trend.html"><strong aria-hidden="true">3.</strong> 第三章 网络前端接入技术的发展趋势</a></li><li class="chapter-item expanded "><a href="../../frontend_principle/load_balance/load_balance.html"><strong aria-hidden="true">4.</strong> 第四章 网络负载均衡技术简介</a></li><li class="chapter-item expanded "><a href="../../design/ideas/ideas.html"><strong aria-hidden="true">5.</strong> 第五章 BFE的设计思想</a></li><li class="chapter-item expanded "><a href="../../design/comparison/comparison.html"><strong aria-hidden="true">6.</strong> 第六章 BFE和相关开源项目的对比</a></li><li class="chapter-item expanded "><a href="../../design/model/model.html"><strong aria-hidden="true">7.</strong> 第七章 BFE的转发模型</a></li><li class="chapter-item expanded "><a href="../../design/route/route.html"><strong aria-hidden="true">8.</strong> 第八章 BFE的路由转发机制</a></li><li class="chapter-item expanded "><a href="../../design/gslb/gslb.html"><strong aria-hidden="true">9.</strong> 第九章 BFE的内网流量调度机制</a></li><li class="chapter-item expanded "><a href="../../design/module/module.html"><strong aria-hidden="true">10.</strong> 第十章 BFE的模块插件机制</a></li><li class="chapter-item expanded "><a href="../../design/health_check/health_check.html"><strong aria-hidden="true">11.</strong> 第十一章 健康检查机制</a></li><li class="chapter-item expanded "><a href="../../design/limit/limit.html"><strong aria-hidden="true">12.</strong> 第十二章 限流机制</a></li><li class="chapter-item expanded "><a href="../../design/monitor/monitor.html"><strong aria-hidden="true">13.</strong> 第十三章 监控机制</a></li><li class="chapter-item expanded "><a href="../../design/log/log.html"><strong aria-hidden="true">14.</strong> 第十四章 日志机制</a></li><li class="chapter-item expanded "><a href="../../design/timeout/timeout.html"><strong aria-hidden="true">15.</strong> 第十五章 超时设置</a></li><li class="chapter-item expanded "><a href="../../design/configuration/configuration.html"><strong aria-hidden="true">16.</strong> 第十六章 配置管理</a></li><li class="chapter-item expanded "><a href="../../design/https/https.html"><strong aria-hidden="true">17.</strong> 第十七章 HTTPS优化机制</a></li><li class="chapter-item expanded "><a href="../../design/info_pass_through/pass_through.html"><strong aria-hidden="true">18.</strong> 第十八章 信息的透传</a></li><li class="chapter-item expanded "><a href="../../operation/installation/installation.html"><strong aria-hidden="true">19.</strong> 第十九章 BFE服务的安装部署</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/basic.html"><strong aria-hidden="true">20.</strong> 第二十章 BFE服务的基础配置</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/proxy.html"><strong aria-hidden="true">21.</strong> 第二十一章 配置负载均衡算法及会话保持</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/https.html"><strong aria-hidden="true">22.</strong> 第二十二章 配置HTTPS服务</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/rewrite.html"><strong aria-hidden="true">23.</strong> 第二十三章 配置rewrite</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/redirect.html"><strong aria-hidden="true">24.</strong> 第二十四章 配置redirect</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/prison.html"><strong aria-hidden="true">25.</strong> 第二十五章 配置限流</a></li><li class="chapter-item expanded "><a href="../../operation/configuration/protocol.html"><strong aria-hidden="true">26.</strong> 第二十六章 支持更多协议</a></li><li class="chapter-item expanded "><a href="../../implementation/source_layout/source_layout.html"><strong aria-hidden="true">27.</strong> 第二十七章 BFE的代码组织</a></li><li class="chapter-item expanded "><a href="../../implementation/process_model/process_model.html"><strong aria-hidden="true">28.</strong> 第二十八章 进程模型</a></li><li class="chapter-item expanded "><a href="../../implementation/life_of_a_request/life_of_a_request.html" class="active"><strong aria-hidden="true">29.</strong> 第二十九章 请求处理流程及响应</a></li><li class="chapter-item expanded "><a href="../../implementation/model_framework/model_framework.html"><strong aria-hidden="true">30.</strong> 第三十章 模块框架</a></li><li class="chapter-item expanded "><a href="../../implementation/routing/routing.html"><strong aria-hidden="true">31.</strong> 第三十一章 请求路由</a></li><li class="chapter-item expanded "><a href="../../implementation/balancing/balancing.html"><strong aria-hidden="true">32.</strong> 第三十二章 负载均衡</a></li><li class="chapter-item expanded "><a href="../../implementation/protocol/protocol.html"><strong aria-hidden="true">33.</strong> 第三十三章 核心协议实现</a></li><li class="chapter-item expanded "><a href="../../develop/how_to_write_module/how_to_write_module.html"><strong aria-hidden="true">34.</strong> 第三十四章 如何开发BFE扩展模块</a></li><li class="chapter-item expanded "><a href="../../appendix/multi_process_gc/multi_process_gc.html"><strong aria-hidden="true">35.</strong> 附1 BFE的多进程GC机制</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">深入理解BFE</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#请求处理流程及响应" id="请求处理流程及响应">请求处理流程及响应</a></h1>
+<h2><a class="header" href="#连接的建立" id="连接的建立">连接的建立</a></h2>
+<p>BFE的监听器处理协程（BfeServer.Serve函数)循环接受新到的客户端连接，并创建新协程处理该连接。</p>
+<pre><code class="language-go">// bfe_server/http_server.go
+
+func (srv *BfeServer) Serve(l net.Listener, raw net.Listener, proto string) error {
+    ...
+	  for {
+			  // accept new connection
+			  rw, e := l.Accept()
+			  ...
+			  // start goroutine for new connection
+			  go func(rwc net.Conn, srv *BfeServer) {
+				    c, err := newConn(rw, srv)
+				    ...
+			  	  c.serve()
+			  }(rw, srv)
+	  }
+}
+</code></pre>
+<h2><a class="header" href="#连接的处理" id="连接的处理">连接的处理</a></h2>
+<p>BFE的连接bfe_server.conn 执行serve函数处理该连接，主要包含：</p>
+<ul>
+<li>步骤1. <strong>回调点处理</strong>：执行HandleAccept回调点的回调链函数</li>
+</ul>
+<pre><code class="language-go">// bfe_server/http_conn.go
+
+// Callback for HANDLE_ACCEPT
+hl = c.server.CallBacks.GetHandlerList(bfe_module.HandleAccept)
+if hl != nil {
+    retVal = hl.FilterAccept(c.session)
+    ...
+}
+</code></pre>
+<ul>
+<li>步骤2. <strong>握手及协商</strong>：执行TLS握手（如果用户发起TLS连接）</li>
+</ul>
+<p>在TLS握手成功后，执行HandleHandshake回调点的回调链函数</p>
+<pre><code class="language-go">// bfe_server/http_conn.go
+
+// Callback for HANDLE_HANDSHAKE
+hl = c.server.CallBacks.GetHandlerList(bfe_module.HandleHandshake)
+if hl != nil {
+    retVal = hl.FilterAccept(c.session)
+    ...
+}
+</code></pre>
+<p>然后基于协商协议，选择并执行应用层协议Handler（HTTP2/SPDY/STREAM）</p>
+<pre><code class="language-go">// bfe_server/bfe_server.go
+
+tlsNextProto[tls_rule_conf.SPDY31] = bfe_spdy.NewProtoHandler(nil)
+tlsNextProto[tls_rule_conf.HTTP2] = bfe_http2.NewProtoHandler(nil)
+tlsNextProto[tls_rule_conf.STREAM] = bfe_stream.NewProtoHandler(
+		&amp;bfe_stream.Server{BalanceHandler: srv.Balance})
+</code></pre>
+<ul>
+<li>
+<p>步骤3. <strong>连接协议处理</strong>：区分连接的协议，执行：</p>
+<ul>
+<li>如果是HTTP(S)连接，在当前协程中顺序读取请求并处理</li>
+<li>如果是HTTP2/SPDY连接，在新建协程中并发读取请求并处理</li>
+<li>如果是STREAM连接，在新建协程处理数据的双向转发（下文略去）</li>
+</ul>
+<p>关于协议的实现说明，详见<a href="../protocol/protocol.html">核心协议实现</a>一章。</p>
+</li>
+</ul>
+<h2><a class="header" href="#请求的处理" id="请求的处理">请求的处理</a></h2>
+<p>BFE的连接对象bfe_server.conn 执行serveRequest函数处理请求。虽然HTTP/HTTPS/HTTP2/SPDY/使用不同方式传输数据，但BFE从协议层接收到HTTP请求后，在上层都转化为相同的内部请求类型(bfe_http.Request)，并执行统一的逻辑处理。</p>
+<p>请求处理的具体流程如下：</p>
+<ul>
+<li>
+<p>步骤1. <strong>回调点处理</strong></p>
+<p>执行HandleBeforeLoation回调点的回调链函数</p>
+</li>
+</ul>
+<pre><code class="language-go">// bfe_server/reverseproxy.go
+
+// Callback for HandleBeforeLocation
+hl = srv.CallBacks.GetHandlerList(bfe_module.HandleBeforeLocation)
+if hl != nil {
+    retVal, res = hl.FilterRequest(basicReq)
+    ...
+}
+</code></pre>
+<ul>
+<li>
+<p>步骤2. <strong>租户路由</strong>：</p>
+<p>查找请求归属的租户。详见<a href="../routing/routing.html">请求路由</a>中的说明。</p>
+</li>
+</ul>
+<pre><code class="language-go">// bfe_server/reverseproxy.go
+
+// find product
+if err := srv.findProduct(basicReq); err != nil {
+    ...
+}
+</code></pre>
+<ul>
+<li>
+<p>步骤3.<strong>回调点处理</strong>：</p>
+<p>执行HandleFoundProduct回调点的回调链函数</p>
+</li>
+</ul>
+<pre><code class="language-go">// bfe_server/reverseproxy.go
+
+// Callback for HandleFoundProduct
+hl = srv.CallBacks.GetHandlerList(bfe_module.HandleFoundProduct)
+if hl != nil {
+    retVal, res = hl.FilterRequest(basicReq)
+    ...
+}
+</code></pre>
+<ul>
+<li>
+<p>步骤4.<strong>集群路由</strong>：</p>
+<p>查找请求归属的目的集群。详见<a href="../routing/routing.html">请求路由</a>中的说明。</p>
+</li>
+</ul>
+<pre><code class="language-go">// bfe_server/reverseproxy.go
+
+if err = srv.findCluster(basicReq); err != nil {
+    ...
+}
+</code></pre>
+<ul>
+<li>步骤5.<strong>回调点处理</strong>：执行HandleAfterLocation回调点的回调链函数</li>
+</ul>
+<pre><code class="language-go">// bfe_server/reverseproxy.go
+
+// Callback for HandleAfterLocation
+hl = srv.CallBacks.GetHandlerList(bfe_module.HandleAfterLocation)
+if hl != nil {
+    ...
+}
+</code></pre>
+<ul>
+<li>
+<p>步骤6.<strong>请求预处理</strong>：</p>
+<p>对请求最终转发前，对请求进行预处理并获取转发参数（例如超时时间）</p>
+</li>
+<li>
+<p>步骤7.<strong>负载均衡及转发</strong>：</p>
+<p>向下游集群转发HTTP请求。详见<a href="../balancing/balancing.html">负载均衡</a>中的说明</p>
+</li>
+</ul>
+<pre><code class="language-go">// bfe_server/reverseproxy.go
+
+res, action, err = p.clusterInvoke(srv, cluster, basicReq, rw)
+basicReq.HttpResponse = res
+</code></pre>
+<ul>
+<li>步骤8.<strong>回调点处理</strong>：执行HandleReadResponse回调点的回调链函数</li>
+</ul>
+<pre><code class="language-go">// bfe_server/reverseproxy.go
+
+// Callback for HandleReadResponse
+hl = srv.CallBacks.GetHandlerList(bfe_module.HandleReadResponse)
+if hl != nil {
+    ...
+}
+</code></pre>
+<ul>
+<li>步骤9.<strong>响应发送</strong>：向用户端发送响应</li>
+</ul>
+<pre><code class="language-go">// bfe_server/reverseproxy.go
+
+err = p.sendResponse(rw, res, resFlushInterval, cancelOnClientClose)
+if err != nil {
+    ...
+}
+</code></pre>
+<h2><a class="header" href="#请求的结束" id="请求的结束">请求的结束</a></h2>
+<ul>
+<li>执行HandleRequestFinish回调点的回调链函数</li>
+</ul>
+<pre><code class="language-go">// bfe_server/reverseproxy.go
+
+// Callback for HandleRequestFinish
+hl := srv.CallBacks.GetHandlerList(bfe_module.HandleRequestFinish)
+if hl != nil {
+    ...
+}
+</code></pre>
+<ul>
+<li>检查连接是否需关闭（例如请求被封禁或HTTP KeepAlive未启用）</li>
+<li>如需关闭，连接将停止读取后续请求并执行关闭操作</li>
+</ul>
+<h2><a class="header" href="#连接的结束" id="连接的结束">连接的结束</a></h2>
+<p>连接在结束前，还需要执行以下操作：</p>
+<ul>
+<li>执行HandleFinish回调点的回调链函数</li>
+</ul>
+<pre><code class="language-go">// bfe_server/http_conn.go
+
+// Callback for HandleFinish
+hl := srv.CallBacks.GetHandlerList(bfe_module.HandleFinish)
+if hl != nil {
+    hl.FilterFinish(c.session)
+}
+</code></pre>
+<ul>
+<li>写出连接缓存区数据并关闭连接</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../implementation/process_model/process_model.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../implementation/model_framework/model_framework.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../implementation/process_model/process_model.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../implementation/model_framework/model_framework.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
